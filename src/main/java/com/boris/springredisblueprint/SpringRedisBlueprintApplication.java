@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class SpringRedisBlueprintApplication {
-
-    public static void main(String[] args) {
+    static void main(String[] args) {
         SpringApplication.run(SpringRedisBlueprintApplication.class, args);
     }
-
 }
