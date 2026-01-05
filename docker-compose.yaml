@@ -1,8 +1,17 @@
 services:
   db:
     image: postgres:18-alpine
+    container_name: spring-postgres
     ports:
       - "5432:5432"
     restart: always
     environment:
       POSTGRES_PASSWORD: changemeinprod!
+
+  redis:
+    image: redis:8-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    # No volumes specified
+    restart: unless-stopped
