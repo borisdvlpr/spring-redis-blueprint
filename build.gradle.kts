@@ -32,6 +32,9 @@ dependencies {
     // postgresql
     runtimeOnly("org.postgresql:postgresql:42.7.8")
 
+    // redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
     // lombok
     compileOnly("org.projectlombok:lombok:1.18.42")
     annotationProcessor("org.projectlombok:lombok:1.18.42")
