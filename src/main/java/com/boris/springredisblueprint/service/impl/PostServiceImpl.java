@@ -13,6 +13,10 @@ import com.boris.springredisblueprint.service.PostService;
 import com.boris.springredisblueprint.service.TagService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +32,7 @@ public class PostServiceImpl implements PostService {
     private final CategoryService categoryService;
     private final TagService tagService;
     private final PostRepository postRepository;
+    private final CacheManager cacheManager;
 
     private static final int WORDS_PER_MINUTE = 200;
 
@@ -55,6 +60,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Cacheable(value = "POST_CACHE", key = "#id")
     public Post getPost(UUID id) {
         return postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Post does not exist with id: " + id));
@@ -67,6 +73,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
+    @CachePut(value = "POST_CACHE", key = "#result.id()")
     public Post createPost(User user, CreatePostRequest createPostRequest) {
         Post newPost = new Post();
         newPost.setTitle(createPostRequest.getTitle());
@@ -87,6 +94,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
+    @CachePut(value = "POST_CACHE", key = "#result.id()")
     public Post updatePost(UUID id, UpdatePostRequest updatePostRequest) {
         Post existingPost = postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Post does not exist with id: " + id));
@@ -114,6 +122,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @CacheEvict(value = "POST_CACHE", key = "#id")
     public void deletePost(UUID id) {
         Post deletePost = getPost(id);
         postRepository.delete(deletePost);
