@@ -3,6 +3,7 @@ package com.boris.springredisblueprint.service;
 
 import com.boris.springredisblueprint.domain.CreatePostRequest;
 import com.boris.springredisblueprint.domain.UpdatePostRequest;
+import com.boris.springredisblueprint.domain.dto.PostDTO;
 import com.boris.springredisblueprint.domain.entities.Post;
 import com.boris.springredisblueprint.domain.entities.User;
 
@@ -12,7 +13,7 @@ import java.util.UUID;
 public interface PostService {
     List<Post> getAllPosts(UUID categoryId, UUID tagId);
 
-    Post getPost(UUID id);
+    PostDTO getPost(UUID id);
 
     List<Post> getDraftPosts(User user);
 

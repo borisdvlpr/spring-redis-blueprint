@@ -3,17 +3,18 @@ package com.boris.springredisblueprint.service.impl;
 import com.boris.springredisblueprint.domain.CreatePostRequest;
 import com.boris.springredisblueprint.domain.PostStatus;
 import com.boris.springredisblueprint.domain.UpdatePostRequest;
+import com.boris.springredisblueprint.domain.dto.PostDTO;
 import com.boris.springredisblueprint.domain.entities.Category;
 import com.boris.springredisblueprint.domain.entities.Post;
 import com.boris.springredisblueprint.domain.entities.Tag;
 import com.boris.springredisblueprint.domain.entities.User;
+import com.boris.springredisblueprint.mapper.PostMapper;
 import com.boris.springredisblueprint.repository.PostRepository;
 import com.boris.springredisblueprint.service.CategoryService;
 import com.boris.springredisblueprint.service.PostService;
 import com.boris.springredisblueprint.service.TagService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -32,9 +33,9 @@ public class PostServiceImpl implements PostService {
     private final CategoryService categoryService;
     private final TagService tagService;
     private final PostRepository postRepository;
-    private final CacheManager cacheManager;
 
     private static final int WORDS_PER_MINUTE = 200;
+    private final PostMapper postMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +61,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     @Cacheable(value = "POST_CACHE", key = "#id")
-    public Post getPost(UUID id) {
-        return postRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Post does not exist with id: " + id));
+    public PostDTO getPost(UUID id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Post not found."));
+
+        return postMapper.toDto(post);
     }
 
     @Override
