@@ -12,11 +12,12 @@ import com.boris.springredisblueprint.service.PostService;
 import com.boris.springredisblueprint.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -28,14 +29,14 @@ public class PostController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<PostDTO>> getAllPosts(
+    public ResponseEntity<Page<PostDTO>> getAllPosts(
             @RequestParam(required = false) UUID categoryId,
-            @RequestParam(required = false) UUID tagId
+            @RequestParam(required = false) UUID tagId,
+            Pageable pageable
     ) {
-        List<Post> posts = postService.getAllPosts(categoryId, tagId);
-        List<PostDTO> postDtos = posts.stream().map(postMapper::toDto).toList();
+        Page<Post> posts = postService.getAllPosts(categoryId, tagId, pageable);
 
-        return ResponseEntity.ok(postDtos);
+        return ResponseEntity.ok(posts.map(postMapper::toDto));
     }
 
     @GetMapping(path = "/{id}")
@@ -48,12 +49,11 @@ public class PostController {
     }
 
     @GetMapping(path = "/drafts")
-    public ResponseEntity<List<PostDTO>> getDrafts(@RequestAttribute UUID userId) {
+    public ResponseEntity<Page<PostDTO>> getDrafts(@RequestAttribute UUID userId, Pageable pageable) {
         User loggedInUser = userService.getUserById(userId);
-        List<Post> draftPosts = postService.getDraftPosts(loggedInUser);
-        List<PostDTO> postDtos = draftPosts.stream().map(postMapper::toDto).toList();
+        Page<Post> draftPosts = postService.getDraftPosts(loggedInUser, pageable);
 
-        return ResponseEntity.ok(postDtos);
+        return ResponseEntity.ok(draftPosts.map(postMapper::toDto));
     }
 
     @PostMapping

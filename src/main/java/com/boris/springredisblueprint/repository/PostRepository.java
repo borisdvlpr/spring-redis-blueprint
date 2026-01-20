@@ -5,27 +5,30 @@ import com.boris.springredisblueprint.domain.entities.Category;
 import com.boris.springredisblueprint.domain.entities.Post;
 import com.boris.springredisblueprint.domain.entities.Tag;
 import com.boris.springredisblueprint.domain.entities.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, UUID> {
     @EntityGraph(attributePaths = {"author", "category", "tags"})
-    List<Post> findAllByStatusAndCategoryAndTagsContaining(PostStatus status, Category category, Tag tag);
+    Page<Post> findAllByStatusAndCategoryAndTagsContaining(PostStatus status, Category category, Tag tag, Pageable pageable);
 
     @EntityGraph(attributePaths = {"author", "category", "tags"})
-    List<Post> findAllByStatusAndCategory(PostStatus status, Category category);
+    Page<Post> findAllByStatusAndCategory(PostStatus status, Category category, Pageable pageable);
 
     @EntityGraph(attributePaths = {"author", "category", "tags"})
-    List<Post> findAllByStatusAndTagsContaining(PostStatus status, Tag tag);
+    Page<Post> findAllByStatusAndTagsContaining(PostStatus status, Tag tag, Pageable pageable);
 
     @EntityGraph(attributePaths = {"author", "category", "tags"})
-    List<Post> findAllByStatus(PostStatus status);
+    Page<Post> findAllByStatus(PostStatus status, Pageable pageable);
 
     @EntityGraph(attributePaths = {"author", "category", "tags"})
-    List<Post> findAllByAuthorAndStatus(User author, PostStatus status);
+    Page<Post> findAllByAuthorAndStatus(User author, PostStatus status, Pageable pageable);
 }
+
