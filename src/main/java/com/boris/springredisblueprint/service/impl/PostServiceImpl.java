@@ -128,7 +128,8 @@ public class PostServiceImpl implements PostService {
     @Override
     @CacheEvict(value = "POST_CACHE", key = "#id")
     public void deletePost(UUID id) {
-        Post deletePost = getPost(id);
+        PostDTO deletePostDto = getPost(id);
+        Post deletePost = postMapper.fromDto(deletePostDto);
         postRepository.delete(deletePost);
     }
 

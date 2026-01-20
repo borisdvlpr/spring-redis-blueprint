@@ -17,6 +17,11 @@ public interface PostMapper {
     @Mapping(target = "tags", source = "tags")
     PostDTO toDto(Post post);
 
+    @Mapping(target = "author", source = "author")
+    @Mapping(target = "category", source = "category")
+    @Mapping(target = "tags", source = "tags")
+    Post fromDto(PostDTO postDto);
+
     CreatePostRequest toCreatePostRequest(CreatePostRequestDTO dto);
 
     UpdatePostRequest toUpdatePostRequest(UpdatePostRequestDTO dto);
