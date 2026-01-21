@@ -1,0 +1,20 @@
+### get all tags
+GET {{host}}/api/v1/tags
+Accept: application/json
+
+### create new tags
+# constraints: 1-10 names, each 2-30 chars, alphanumeric/spaces/hyphens only
+POST {{host}}/api/v1/tags
+Content-Type: application/json
+
+{
+  "names": [
+    "Spring Boot",
+    "Redis",
+    "Cache"
+  ]
+}
+
+### delete a tag by ID
+@tagId = <tag_id>
+DELETE {{host}}/api/v1/tags/{{tagId}}
