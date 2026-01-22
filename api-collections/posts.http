@@ -14,14 +14,15 @@ GET {{host}}/api/v1/posts/drafts
 # constraints: title(3-100), content(50-50000), max 10 tags
 POST {{host}}/api/v1/posts
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "title": "Spring Boot Redis Blueprint",
   "content": "Comprehensive guide on how to integrate Spring Boot with Redis for high-performance applications. Covers caching, session management, and more.",
-  "categoryId": "550e8400-e29b-41d4-a716-446655440000",
+  "categoryId": "b6888097-ace1-4b5f-aedb-8749792b0edf",
   "tagIds": [
-    "550e8400-e29b-41d4-a716-446655440001",
-    "550e8400-e29b-41d4-a716-446655440002"
+    "4e5c1993-409a-4637-a014-c3612595fcfa",
+    "668163ea-7687-4968-90c8-699fe836baea"
   ],
   "postStatus": "DRAFT"
 }
@@ -31,16 +32,18 @@ Content-Type: application/json
 # constraints: id(required), title(3-200), content(10-50000)
 PUT {{host}}/api/v1/posts/{{postId}}
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "id": "550e8400-e29b-41d4-a716-446655440000",
-  "title": "Updated: Spring Boot Redis Blueprint Guide",
-  "content": "Updated content: Now includes Redis Streams and Pub/Sub examples for real-time messaging.",
+  "title": "Spring Boot Redis Blueprint Guide",
+  "content": "Now includes Redis Streams and Pub/Sub examples for real-time messaging.",
   "tagIds": [
-    "550e8400-e29b-41d4-a716-446655440001"
+    "6c0ed2d5-7c47-4e92-ab1d-268eb9806f95"
   ],
   "status": "PUBLISHED"
 }
 
 ### delete a post by ID
 DELETE {{host}}/api/v1/posts/{{postId}}
+Authorization: Bearer {{token}}

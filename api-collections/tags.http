@@ -6,6 +6,7 @@ Accept: application/json
 # constraints: 1-10 names, each 2-30 chars, alphanumeric/spaces/hyphens only
 POST {{host}}/api/v1/tags
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "names": [
@@ -16,5 +17,6 @@ Content-Type: application/json
 }
 
 ### delete a tag by ID
-@tagId = <tag_id>
+@tagId = 0daf0887-2c88-48dc-8e09-9b9289e04b69
 DELETE {{host}}/api/v1/tags/{{tagId}}
+Authorization: Bearer {{token}}

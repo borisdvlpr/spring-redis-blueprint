@@ -6,9 +6,11 @@ Accept: application/json
 # constraints: 2-50 chars, alphanumeric/spaces/hyphens only
 POST {{host}}/api/v1/categories HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 { "name" : "Architecture" }
 
 ### delete a category by ID
-@categoryId = <category-id>
+@categoryId = 0daf0887-2c88-48dc-8e09-9b9289e04b69
 DELETE {{host}}/api/v1/categories/{{categoryId}}
+Authorization: Bearer {{token}}
