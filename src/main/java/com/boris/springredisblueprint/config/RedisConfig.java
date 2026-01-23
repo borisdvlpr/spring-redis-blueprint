@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.config;
 
-import com.boris.springredisblueprint.domain.dto.PostDTO;
+import com.boris.springredisblueprint.domain.dto.PostDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -19,7 +19,7 @@ public class RedisConfig {
                 .entryTtl(Duration.ofMinutes(10))
                 .disableCachingNullValues()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair
-                        .fromSerializer(new JacksonJsonRedisSerializer<>(PostDTO.class)));
+                        .fromSerializer(new JacksonJsonRedisSerializer<>(PostDto.class)));
 
         return RedisCacheManager
                 .builder(connectionFactory)

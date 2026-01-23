@@ -2,9 +2,9 @@ package com.boris.springredisblueprint.mapper;
 
 import com.boris.springredisblueprint.domain.CreatePostRequest;
 import com.boris.springredisblueprint.domain.UpdatePostRequest;
-import com.boris.springredisblueprint.domain.dto.CreatePostRequestDTO;
-import com.boris.springredisblueprint.domain.dto.PostDTO;
-import com.boris.springredisblueprint.domain.dto.UpdatePostRequestDTO;
+import com.boris.springredisblueprint.domain.dto.CreatePostRequestDto;
+import com.boris.springredisblueprint.domain.dto.PostDto;
+import com.boris.springredisblueprint.domain.dto.UpdatePostRequestDto;
 import com.boris.springredisblueprint.domain.entities.Post;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,14 +15,14 @@ public interface PostMapper {
     @Mapping(target = "author", source = "author")
     @Mapping(target = "category", source = "category")
     @Mapping(target = "tags", source = "tags")
-    PostDTO toDto(Post post);
+    PostDto toDto(Post post);
 
     @Mapping(target = "author", source = "author")
     @Mapping(target = "category", source = "category")
     @Mapping(target = "tags", source = "tags")
-    Post fromDto(PostDTO postDto);
+    Post fromDto(PostDto postDto);
 
-    CreatePostRequest toCreatePostRequest(CreatePostRequestDTO dto);
+    CreatePostRequest toCreatePostRequest(CreatePostRequestDto dto);
 
-    UpdatePostRequest toUpdatePostRequest(UpdatePostRequestDTO dto);
+    UpdatePostRequest toUpdatePostRequest(UpdatePostRequestDto dto);
 }

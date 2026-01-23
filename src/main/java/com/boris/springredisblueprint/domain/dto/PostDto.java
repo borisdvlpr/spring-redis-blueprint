@@ -14,13 +14,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PostDTO {
+public class PostDto {
     private UUID id;
     private String title;
     private String content;
-    private AuthorDTO author;
-    private CategoryDTO category;
-    private Set<TagDTO> tags;
+    private AuthorDto author;
+    private CategoryDto category;
+    private Set<TagDto> tags;
     private Integer readingTime;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

@@ -1,8 +1,8 @@
 package com.boris.springredisblueprint.mapper;
 
 import com.boris.springredisblueprint.domain.PostStatus;
-import com.boris.springredisblueprint.domain.dto.CategoryDTO;
-import com.boris.springredisblueprint.domain.dto.CreateCategoryRequest;
+import com.boris.springredisblueprint.domain.dto.CategoryDto;
+import com.boris.springredisblueprint.domain.dto.CreateCategoryRequestDto;
 import com.boris.springredisblueprint.domain.entities.Category;
 import com.boris.springredisblueprint.domain.entities.Post;
 import org.mapstruct.Mapper;
@@ -15,9 +15,9 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CategoryMapper {
     @Mapping(target = "postCount", source = "posts", qualifiedByName = "calculatePostCount")
-    CategoryDTO toDTO(Category category);
+    CategoryDto toDTO(Category category);
 
-    Category toEntity(CreateCategoryRequest createCategoryRequest);
+    Category toEntity(CreateCategoryRequestDto createCategoryRequestDto);
 
     @Named("calculatePostCount")
     default long calculatePostCount(List<Post> posts) {

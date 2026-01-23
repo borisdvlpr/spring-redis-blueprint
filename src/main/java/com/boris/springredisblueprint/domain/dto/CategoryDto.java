@@ -8,10 +8,11 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class AuthorDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+public class CategoryDto {
     private UUID id;
     private String name;
+    private int postCount;
 }

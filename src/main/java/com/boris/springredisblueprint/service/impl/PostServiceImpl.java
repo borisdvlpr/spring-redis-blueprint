@@ -3,7 +3,7 @@ package com.boris.springredisblueprint.service.impl;
 import com.boris.springredisblueprint.domain.CreatePostRequest;
 import com.boris.springredisblueprint.domain.PostStatus;
 import com.boris.springredisblueprint.domain.UpdatePostRequest;
-import com.boris.springredisblueprint.domain.dto.PostDTO;
+import com.boris.springredisblueprint.domain.dto.PostDto;
 import com.boris.springredisblueprint.domain.entities.Category;
 import com.boris.springredisblueprint.domain.entities.Post;
 import com.boris.springredisblueprint.domain.entities.Tag;
@@ -65,7 +65,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "POST_CACHE", key = "#id")
-    public PostDTO getPost(UUID id) {
+    public PostDto getPost(UUID id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Post not found."));
 
@@ -130,7 +130,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @CacheEvict(value = "POST_CACHE", key = "#id")
     public void deletePost(UUID id) {
-        PostDTO deletePostDto = getPost(id);
+        PostDto deletePostDto = getPost(id);
         Post deletePost = postMapper.fromDto(deletePostDto);
         postRepository.delete(deletePost);
     }

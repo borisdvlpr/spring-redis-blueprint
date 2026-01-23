@@ -2,9 +2,9 @@ package com.boris.springredisblueprint.controller;
 
 import com.boris.springredisblueprint.domain.CreatePostRequest;
 import com.boris.springredisblueprint.domain.UpdatePostRequest;
-import com.boris.springredisblueprint.domain.dto.CreatePostRequestDTO;
-import com.boris.springredisblueprint.domain.dto.PostDTO;
-import com.boris.springredisblueprint.domain.dto.UpdatePostRequestDTO;
+import com.boris.springredisblueprint.domain.dto.CreatePostRequestDto;
+import com.boris.springredisblueprint.domain.dto.PostDto;
+import com.boris.springredisblueprint.domain.dto.UpdatePostRequestDto;
 import com.boris.springredisblueprint.domain.entities.Post;
 import com.boris.springredisblueprint.domain.entities.User;
 import com.boris.springredisblueprint.mapper.PostMapper;
@@ -29,7 +29,7 @@ public class PostController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<Page<PostDTO>> getAllPosts(
+    public ResponseEntity<Page<PostDto>> getAllPosts(
             @RequestParam(required = false) UUID categoryId,
             @RequestParam(required = false) UUID tagId,
             Pageable pageable
@@ -40,16 +40,16 @@ public class PostController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<PostDTO> getPost(
+    public ResponseEntity<PostDto> getPost(
             @PathVariable UUID id
     ) {
-        PostDTO postDto = postService.getPost(id);
+        PostDto postDto = postService.getPost(id);
 
         return ResponseEntity.ok(postDto);
     }
 
     @GetMapping(path = "/drafts")
-    public ResponseEntity<Page<PostDTO>> getDrafts(@RequestAttribute UUID userId, Pageable pageable) {
+    public ResponseEntity<Page<PostDto>> getDrafts(@RequestAttribute UUID userId, Pageable pageable) {
         User loggedInUser = userService.getUserById(userId);
         Page<Post> draftPosts = postService.getDraftPosts(loggedInUser, pageable);
 
@@ -57,26 +57,26 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostDTO> createPost(
-            @Valid @RequestBody CreatePostRequestDTO createPostRequestDTO,
+    public ResponseEntity<PostDto> createPost(
+            @Valid @RequestBody CreatePostRequestDto createPostRequestDTO,
             @RequestAttribute UUID userId
     ) {
         User loggedInUser = userService.getUserById(userId);
         CreatePostRequest createPostRequest = postMapper.toCreatePostRequest(createPostRequestDTO);
         Post createdPost = postService.createPost(loggedInUser, createPostRequest);
-        PostDTO createdPostDTO = postMapper.toDto(createdPost);
+        PostDto createdPostDto = postMapper.toDto(createdPost);
 
-        return new ResponseEntity<>(createdPostDTO, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdPostDto, HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<PostDTO> updatePost(
+    public ResponseEntity<PostDto> updatePost(
             @PathVariable UUID id,
-            @Valid @RequestBody UpdatePostRequestDTO updatePostRequestDTO
+            @Valid @RequestBody UpdatePostRequestDto updatePostRequestDTO
     ) {
         UpdatePostRequest updatePostRequest = postMapper.toUpdatePostRequest(updatePostRequestDTO);
         Post updatedPost = postService.updatePost(id, updatePostRequest);
-        PostDTO updatedPostDto = postMapper.toDto(updatedPost);
+        PostDto updatedPostDto = postMapper.toDto(updatedPost);
 
         return ResponseEntity.ok(updatedPostDto);
     }

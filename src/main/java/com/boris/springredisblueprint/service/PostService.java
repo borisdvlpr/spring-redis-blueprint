@@ -3,19 +3,18 @@ package com.boris.springredisblueprint.service;
 
 import com.boris.springredisblueprint.domain.CreatePostRequest;
 import com.boris.springredisblueprint.domain.UpdatePostRequest;
-import com.boris.springredisblueprint.domain.dto.PostDTO;
+import com.boris.springredisblueprint.domain.dto.PostDto;
 import com.boris.springredisblueprint.domain.entities.Post;
 import com.boris.springredisblueprint.domain.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface PostService {
     Page<Post> getAllPosts(UUID categoryId, UUID tagId, Pageable pageable);
 
-    PostDTO getPost(UUID id);
+    PostDto getPost(UUID id);
 
     Page<Post> getDraftPosts(User user, Pageable pageable);
 

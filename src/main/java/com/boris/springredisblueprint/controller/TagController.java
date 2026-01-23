@@ -1,7 +1,7 @@
 package com.boris.springredisblueprint.controller;
 
-import com.boris.springredisblueprint.domain.dto.CreateTagsRequest;
-import com.boris.springredisblueprint.domain.dto.TagDTO;
+import com.boris.springredisblueprint.domain.dto.CreateTagsRequestDto;
+import com.boris.springredisblueprint.domain.dto.TagDto;
 import com.boris.springredisblueprint.domain.entities.Tag;
 import com.boris.springredisblueprint.mapper.TagMapper;
 import com.boris.springredisblueprint.service.TagService;
@@ -21,17 +21,17 @@ public class TagController {
     private final TagMapper tagMapper;
 
     @GetMapping
-    public ResponseEntity<List<TagDTO>> getAllTags() {
+    public ResponseEntity<List<TagDto>> getAllTags() {
         List<Tag> tags = tagService.getTags();
-        List<TagDTO> tagRespons = tags.stream().map(tagMapper::toTagResponse).toList();
+        List<TagDto> tagRespons = tags.stream().map(tagMapper::toTagResponse).toList();
 
         return ResponseEntity.ok(tagRespons);
     }
 
     @PostMapping
-    public ResponseEntity<List<TagDTO>> createTags(@RequestBody CreateTagsRequest createTagsRequest) {
-        List<Tag> savedTags = tagService.createTags(createTagsRequest.getNames());
-        List<TagDTO> createdTagRespons = savedTags.stream().map(tagMapper::toTagResponse).toList();
+    public ResponseEntity<List<TagDto>> createTags(@RequestBody CreateTagsRequestDto createTagsRequestDto) {
+        List<Tag> savedTags = tagService.createTags(createTagsRequestDto.getNames());
+        List<TagDto> createdTagRespons = savedTags.stream().map(tagMapper::toTagResponse).toList();
 
         return new ResponseEntity<>(
                 createdTagRespons,

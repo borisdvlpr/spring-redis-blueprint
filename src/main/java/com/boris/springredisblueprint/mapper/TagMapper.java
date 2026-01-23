@@ -1,7 +1,7 @@
 package com.boris.springredisblueprint.mapper;
 
 import com.boris.springredisblueprint.domain.PostStatus;
-import com.boris.springredisblueprint.domain.dto.TagDTO;
+import com.boris.springredisblueprint.domain.dto.TagDto;
 import com.boris.springredisblueprint.domain.entities.Post;
 import com.boris.springredisblueprint.domain.entities.Tag;
 import org.mapstruct.Mapper;
@@ -14,7 +14,7 @@ import java.util.Set;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TagMapper {
     @Mapping(target = "postCount", source = "posts", qualifiedByName = "calculatePostCounts")
-    TagDTO toTagResponse(Tag tag);
+    TagDto toTagResponse(Tag tag);
 
     @Named("calculatePostCounts")
     default Integer calculatePostCounts(Set<Post> posts) {
