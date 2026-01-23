@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.domain.dto;
 
-import com.boris.springredisblueprint.domain.PostStatus;
+import com.boris.springredisblueprint.domain.type.PostStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,5 +24,5 @@ public class PostDto {
     private Integer readingTime;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private PostStatus status;
+    private PostStatusEnum status;
 }

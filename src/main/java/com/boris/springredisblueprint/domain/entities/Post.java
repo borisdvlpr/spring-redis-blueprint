@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.domain.entities;
 
-import com.boris.springredisblueprint.domain.PostStatus;
+import com.boris.springredisblueprint.domain.type.PostStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -49,7 +49,7 @@ public class Post {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PostStatus status;
+    private PostStatusEnum status;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;

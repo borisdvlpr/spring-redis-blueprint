@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.domain.dto;
 
-import com.boris.springredisblueprint.domain.PostStatus;
+import com.boris.springredisblueprint.domain.type.PostStatusEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -34,5 +34,5 @@ public class UpdatePostRequestDto {
     private Set<UUID> tagIds = new HashSet<>();
 
     @NotNull(message = "Status is required.")
-    private PostStatus status;
+    private PostStatusEnum status;
 }

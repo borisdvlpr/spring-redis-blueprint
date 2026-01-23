@@ -1,5 +1,6 @@
 package com.boris.springredisblueprint.domain;
 
+import com.boris.springredisblueprint.domain.type.PostStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,5 +21,5 @@ public class UpdatePostRequest {
     private UUID categoryId;
     @Builder.Default
     private Set<UUID> tagIds = new HashSet<>();
-    private PostStatus status;
+    private PostStatusEnum status;
 }

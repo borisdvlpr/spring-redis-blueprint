@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.mapper;
 
-import com.boris.springredisblueprint.domain.PostStatus;
+import com.boris.springredisblueprint.domain.type.PostStatusEnum;
 import com.boris.springredisblueprint.domain.dto.CategoryDto;
 import com.boris.springredisblueprint.domain.dto.CreateCategoryRequestDto;
 import com.boris.springredisblueprint.domain.entities.Category;
@@ -26,7 +26,7 @@ public interface CategoryMapper {
         }
 
         return posts.stream()
-                .filter(post -> PostStatus.PUBLISHED.equals(post.getStatus()))
+                .filter(post -> PostStatusEnum.PUBLISHED.equals(post.getStatus()))
                 .count();
     }
 }

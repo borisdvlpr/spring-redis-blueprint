@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.mapper;
 
-import com.boris.springredisblueprint.domain.PostStatus;
+import com.boris.springredisblueprint.domain.type.PostStatusEnum;
 import com.boris.springredisblueprint.domain.dto.TagDto;
 import com.boris.springredisblueprint.domain.entities.Post;
 import com.boris.springredisblueprint.domain.entities.Tag;
@@ -23,7 +23,7 @@ public interface TagMapper {
         }
 
         return (int) posts.stream()
-                .filter(post -> PostStatus.PUBLISHED.equals(post.getStatus()))
+                .filter(post -> PostStatusEnum.PUBLISHED.equals(post.getStatus()))
                 .count();
     }
 }

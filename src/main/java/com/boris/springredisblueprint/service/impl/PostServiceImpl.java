@@ -1,7 +1,7 @@
 package com.boris.springredisblueprint.service.impl;
 
 import com.boris.springredisblueprint.domain.CreatePostRequest;
-import com.boris.springredisblueprint.domain.PostStatus;
+import com.boris.springredisblueprint.domain.type.PostStatusEnum;
 import com.boris.springredisblueprint.domain.UpdatePostRequest;
 import com.boris.springredisblueprint.domain.dto.PostDto;
 import com.boris.springredisblueprint.domain.entities.Category;
@@ -46,20 +46,20 @@ public class PostServiceImpl implements PostService {
             Category category = categoryService.getCategoryById(categoryId);
             Tag tag = tagService.getTagById(tagId);
 
-            return postRepository.findAllByStatusAndCategoryAndTagsContaining(PostStatus.PUBLISHED, category, tag, pageable);
+            return postRepository.findAllByStatusAndCategoryAndTagsContaining(PostStatusEnum.PUBLISHED, category, tag, pageable);
         }
 
         if (categoryId != null) {
             Category category = categoryService.getCategoryById(categoryId);
-            return postRepository.findAllByStatusAndCategory(PostStatus.PUBLISHED, category, pageable);
+            return postRepository.findAllByStatusAndCategory(PostStatusEnum.PUBLISHED, category, pageable);
         }
 
         if (tagId != null) {
             Tag tag = tagService.getTagById(tagId);
-            return postRepository.findAllByStatusAndTagsContaining(PostStatus.PUBLISHED, tag, pageable);
+            return postRepository.findAllByStatusAndTagsContaining(PostStatusEnum.PUBLISHED, tag, pageable);
         }
 
-        return postRepository.findAllByStatus(PostStatus.PUBLISHED, pageable);
+        return postRepository.findAllByStatus(PostStatusEnum.PUBLISHED, pageable);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Page<Post> getDraftPosts(User user, Pageable pageable) {
-        return postRepository.findAllByAuthorAndStatus(user, PostStatus.DRAFT, pageable);
+        return postRepository.findAllByAuthorAndStatus(user, PostStatusEnum.DRAFT, pageable);
     }
 
     @Override
