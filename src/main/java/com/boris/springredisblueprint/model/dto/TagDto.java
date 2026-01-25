@@ -1,4 +1,4 @@
-package com.boris.springredisblueprint.domain.dto;
+package com.boris.springredisblueprint.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDto {
+@NoArgsConstructor
+@Builder
+public class TagDto {
     private UUID id;
     private String name;
-    private int postCount;
+    private Integer postCount;
 }

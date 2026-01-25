@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.service;
 
-import com.boris.springredisblueprint.domain.entities.User;
+import com.boris.springredisblueprint.model.entities.User;
 
 import java.util.UUID;
 

@@ -1,9 +1,9 @@
 package com.boris.springredisblueprint.mapper;
 
-import com.boris.springredisblueprint.domain.type.PostStatusEnum;
-import com.boris.springredisblueprint.domain.dto.TagDto;
-import com.boris.springredisblueprint.domain.entities.Post;
-import com.boris.springredisblueprint.domain.entities.Tag;
+import com.boris.springredisblueprint.model.type.PostStatusEnum;
+import com.boris.springredisblueprint.model.dto.TagDto;
+import com.boris.springredisblueprint.model.entities.Post;
+import com.boris.springredisblueprint.model.entities.Tag;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

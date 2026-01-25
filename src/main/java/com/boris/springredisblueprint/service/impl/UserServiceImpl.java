@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.service.impl;
 
-import com.boris.springredisblueprint.domain.entities.User;
+import com.boris.springredisblueprint.model.entities.User;
 import com.boris.springredisblueprint.repository.UserRepository;
 import com.boris.springredisblueprint.service.UserService;
 import jakarta.persistence.EntityNotFoundException;

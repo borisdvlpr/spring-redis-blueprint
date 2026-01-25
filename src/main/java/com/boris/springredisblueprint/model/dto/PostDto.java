@@ -1,6 +1,6 @@
-package com.boris.springredisblueprint.domain.dto;
+package com.boris.springredisblueprint.model.dto;
 
-import com.boris.springredisblueprint.domain.type.PostStatusEnum;
+import com.boris.springredisblueprint.model.type.PostStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

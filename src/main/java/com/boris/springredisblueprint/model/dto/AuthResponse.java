@@ -1,4 +1,4 @@
-package com.boris.springredisblueprint.domain.dto;
+package com.boris.springredisblueprint.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LoginRequest {
-    private String email;
-    private String password;
+public class AuthResponse {
+    private String token;
+    private Long expiresIn;
 }

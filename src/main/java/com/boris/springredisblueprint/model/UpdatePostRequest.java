@@ -1,6 +1,6 @@
-package com.boris.springredisblueprint.domain;
+package com.boris.springredisblueprint.model;
 
-import com.boris.springredisblueprint.domain.type.PostStatusEnum;
+import com.boris.springredisblueprint.model.type.PostStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +14,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CreatePostRequest {
+public class UpdatePostRequest {
+    private UUID id;
     private String title;
     private String content;
     private UUID categoryId;

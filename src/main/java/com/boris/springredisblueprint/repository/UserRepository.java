@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.repository;
 
-import com.boris.springredisblueprint.domain.entities.User;
+import com.boris.springredisblueprint.model.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,11 +1,11 @@
 package com.boris.springredisblueprint.mapper;
 
-import com.boris.springredisblueprint.domain.CreatePostRequest;
-import com.boris.springredisblueprint.domain.UpdatePostRequest;
-import com.boris.springredisblueprint.domain.dto.CreatePostRequestDto;
-import com.boris.springredisblueprint.domain.dto.PostDto;
-import com.boris.springredisblueprint.domain.dto.UpdatePostRequestDto;
-import com.boris.springredisblueprint.domain.entities.Post;
+import com.boris.springredisblueprint.model.CreatePostRequest;
+import com.boris.springredisblueprint.model.UpdatePostRequest;
+import com.boris.springredisblueprint.model.dto.CreatePostRequestDto;
+import com.boris.springredisblueprint.model.dto.PostDto;
+import com.boris.springredisblueprint.model.dto.UpdatePostRequestDto;
+import com.boris.springredisblueprint.model.entities.Post;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;

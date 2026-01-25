@@ -1,13 +1,13 @@
 package com.boris.springredisblueprint.service.impl;
 
-import com.boris.springredisblueprint.domain.CreatePostRequest;
-import com.boris.springredisblueprint.domain.type.PostStatusEnum;
-import com.boris.springredisblueprint.domain.UpdatePostRequest;
-import com.boris.springredisblueprint.domain.dto.PostDto;
-import com.boris.springredisblueprint.domain.entities.Category;
-import com.boris.springredisblueprint.domain.entities.Post;
-import com.boris.springredisblueprint.domain.entities.Tag;
-import com.boris.springredisblueprint.domain.entities.User;
+import com.boris.springredisblueprint.model.CreatePostRequest;
+import com.boris.springredisblueprint.model.type.PostStatusEnum;
+import com.boris.springredisblueprint.model.UpdatePostRequest;
+import com.boris.springredisblueprint.model.dto.PostDto;
+import com.boris.springredisblueprint.model.entities.Category;
+import com.boris.springredisblueprint.model.entities.Post;
+import com.boris.springredisblueprint.model.entities.Tag;
+import com.boris.springredisblueprint.model.entities.User;
 import com.boris.springredisblueprint.mapper.PostMapper;
 import com.boris.springredisblueprint.repository.PostRepository;
 import com.boris.springredisblueprint.service.CategoryService;

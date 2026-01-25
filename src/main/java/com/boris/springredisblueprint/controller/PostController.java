@@ -1,12 +1,12 @@
 package com.boris.springredisblueprint.controller;
 
-import com.boris.springredisblueprint.domain.CreatePostRequest;
-import com.boris.springredisblueprint.domain.UpdatePostRequest;
-import com.boris.springredisblueprint.domain.dto.CreatePostRequestDto;
-import com.boris.springredisblueprint.domain.dto.PostDto;
-import com.boris.springredisblueprint.domain.dto.UpdatePostRequestDto;
-import com.boris.springredisblueprint.domain.entities.Post;
-import com.boris.springredisblueprint.domain.entities.User;
+import com.boris.springredisblueprint.model.CreatePostRequest;
+import com.boris.springredisblueprint.model.UpdatePostRequest;
+import com.boris.springredisblueprint.model.dto.CreatePostRequestDto;
+import com.boris.springredisblueprint.model.dto.PostDto;
+import com.boris.springredisblueprint.model.dto.UpdatePostRequestDto;
+import com.boris.springredisblueprint.model.entities.Post;
+import com.boris.springredisblueprint.model.entities.User;
 import com.boris.springredisblueprint.mapper.PostMapper;
 import com.boris.springredisblueprint.service.PostService;
 import com.boris.springredisblueprint.service.UserService;

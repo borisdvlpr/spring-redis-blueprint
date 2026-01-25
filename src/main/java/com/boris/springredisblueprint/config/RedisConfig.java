@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.config;
 
-import com.boris.springredisblueprint.domain.dto.PostDto;
+import com.boris.springredisblueprint.model.dto.PostDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;

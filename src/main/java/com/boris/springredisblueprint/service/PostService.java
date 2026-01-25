@@ -1,11 +1,11 @@
 package com.boris.springredisblueprint.service;
 
 
-import com.boris.springredisblueprint.domain.CreatePostRequest;
-import com.boris.springredisblueprint.domain.UpdatePostRequest;
-import com.boris.springredisblueprint.domain.dto.PostDto;
-import com.boris.springredisblueprint.domain.entities.Post;
-import com.boris.springredisblueprint.domain.entities.User;
+import com.boris.springredisblueprint.model.CreatePostRequest;
+import com.boris.springredisblueprint.model.UpdatePostRequest;
+import com.boris.springredisblueprint.model.dto.PostDto;
+import com.boris.springredisblueprint.model.entities.Post;
+import com.boris.springredisblueprint.model.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

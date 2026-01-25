@@ -1,4 +1,4 @@
-package com.boris.springredisblueprint.domain.dto;
+package com.boris.springredisblueprint.model.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;

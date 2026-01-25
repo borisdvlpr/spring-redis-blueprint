@@ -1,4 +1,4 @@
-package com.boris.springredisblueprint.domain.dto;
+package com.boris.springredisblueprint.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,10 +1,10 @@
 package com.boris.springredisblueprint.mapper;
 
-import com.boris.springredisblueprint.domain.type.PostStatusEnum;
-import com.boris.springredisblueprint.domain.dto.CategoryDto;
-import com.boris.springredisblueprint.domain.dto.CreateCategoryRequestDto;
-import com.boris.springredisblueprint.domain.entities.Category;
-import com.boris.springredisblueprint.domain.entities.Post;
+import com.boris.springredisblueprint.model.type.PostStatusEnum;
+import com.boris.springredisblueprint.model.dto.CategoryDto;
+import com.boris.springredisblueprint.model.dto.CreateCategoryRequestDto;
+import com.boris.springredisblueprint.model.entities.Category;
+import com.boris.springredisblueprint.model.entities.Post;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

@@ -1,4 +1,4 @@
-package com.boris.springredisblueprint.domain.type;
+package com.boris.springredisblueprint.model.type;
 
 public enum PostStatusEnum {
     DRAFT, PUBLISHED

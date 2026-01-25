@@ -1,6 +1,6 @@
-package com.boris.springredisblueprint.domain.entities;
+package com.boris.springredisblueprint.model.entities;
 
-import com.boris.springredisblueprint.domain.type.PostStatusEnum;
+import com.boris.springredisblueprint.model.type.PostStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 

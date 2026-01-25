@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.config;
 
-import com.boris.springredisblueprint.domain.entities.User;
+import com.boris.springredisblueprint.model.entities.User;
 import com.boris.springredisblueprint.repository.UserRepository;
 import com.boris.springredisblueprint.security.BlogUserDetailsService;
 import com.boris.springredisblueprint.security.JwtAuthenticationFilter;

@@ -1,7 +1,7 @@
 package com.boris.springredisblueprint.controller;
 
-import com.boris.springredisblueprint.domain.dto.AuthResponse;
-import com.boris.springredisblueprint.domain.dto.LoginRequest;
+import com.boris.springredisblueprint.model.dto.AuthResponse;
+import com.boris.springredisblueprint.model.dto.LoginRequest;
 import com.boris.springredisblueprint.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

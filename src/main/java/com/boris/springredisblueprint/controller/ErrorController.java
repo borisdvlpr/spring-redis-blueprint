@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.controller;
 
-import com.boris.springredisblueprint.domain.dto.ApiErrorResponse;
+import com.boris.springredisblueprint.model.dto.ApiErrorResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

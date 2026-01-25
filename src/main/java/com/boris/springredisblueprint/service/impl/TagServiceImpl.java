@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.service.impl;
 
-import com.boris.springredisblueprint.domain.entities.Tag;
+import com.boris.springredisblueprint.model.entities.Tag;
 import com.boris.springredisblueprint.repository.TagRepository;
 import com.boris.springredisblueprint.service.TagService;
 import jakarta.persistence.EntityNotFoundException;

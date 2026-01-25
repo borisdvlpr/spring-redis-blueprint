@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.security;
 
-import com.boris.springredisblueprint.domain.entities.User;
+import com.boris.springredisblueprint.model.entities.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

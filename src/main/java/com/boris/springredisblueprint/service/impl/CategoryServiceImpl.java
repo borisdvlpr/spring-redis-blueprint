@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.service.impl;
 
-import com.boris.springredisblueprint.domain.entities.Category;
+import com.boris.springredisblueprint.model.entities.Category;
 import com.boris.springredisblueprint.repository.CategoryRepository;
 import com.boris.springredisblueprint.service.CategoryService;
 import jakarta.persistence.EntityNotFoundException;
