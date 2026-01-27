@@ -4,11 +4,14 @@ GET {{host}}/api/v1/posts
 Accept: application/json
 
 ### get a specific post by ID
+@postId = 61076f62-06b2-4942-aec4-e7fcd8d39ac2
 GET {{host}}/api/v1/posts/{{postId}}
 
 ### get drafts for logged-in user
 # requires userId RequestAttribute
 GET {{host}}/api/v1/posts/drafts
+Content-Type: application/json
+Authorization: Bearer {{token}}
 
 ### create a new post
 # constraints: title(3-100), content(50-50000), max 10 tags
@@ -19,16 +22,15 @@ Authorization: Bearer {{token}}
 {
   "title": "Spring Boot Redis Blueprint",
   "content": "Comprehensive guide on how to integrate Spring Boot with Redis for high-performance applications. Covers caching, session management, and more.",
-  "categoryId": "b6888097-ace1-4b5f-aedb-8749792b0edf",
+  "categoryId": "2e70aa3f-0d54-466d-ae79-f2392c5d1273",
   "tagIds": [
-    "4e5c1993-409a-4637-a014-c3612595fcfa",
-    "668163ea-7687-4968-90c8-699fe836baea"
+    "e1455697-77e8-4c45-819f-15e9992c2b3d",
+    "774bcf64-da5e-4a4f-b442-4181413cb28f"
   ],
-  "postStatus": "DRAFT"
+  "status": "DRAFT"
 }
 
 ### update an existing post
-@postId = <post_id>
 # constraints: id(required), title(3-200), content(10-50000)
 PUT {{host}}/api/v1/posts/{{postId}}
 Content-Type: application/json
