@@ -1,14 +1,14 @@
 package com.boris.springredisblueprint.service.impl;
 
+import com.boris.springredisblueprint.mapper.PostMapper;
 import com.boris.springredisblueprint.model.CreatePostRequest;
-import com.boris.springredisblueprint.model.type.PostStatusEnum;
 import com.boris.springredisblueprint.model.UpdatePostRequest;
 import com.boris.springredisblueprint.model.dto.PostDto;
 import com.boris.springredisblueprint.model.entities.Category;
 import com.boris.springredisblueprint.model.entities.Post;
 import com.boris.springredisblueprint.model.entities.Tag;
 import com.boris.springredisblueprint.model.entities.User;
-import com.boris.springredisblueprint.mapper.PostMapper;
+import com.boris.springredisblueprint.model.type.PostStatusEnum;
 import com.boris.springredisblueprint.repository.PostRepository;
 import com.boris.springredisblueprint.service.CategoryService;
 import com.boris.springredisblueprint.service.PostService;
@@ -16,7 +16,6 @@ import com.boris.springredisblueprint.service.TagService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -79,7 +78,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    @CachePut(value = "POST_CACHE", key = "#result.id()")
     public Post createPost(User user, CreatePostRequest createPostRequest) {
         Post newPost = new Post();
         newPost.setTitle(createPostRequest.getTitle());
@@ -100,7 +98,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    @CachePut(value = "POST_CACHE", key = "#result.id()")
+    @CacheEvict(value = "POST_CACHE", key = "#id")
     public Post updatePost(UUID id, UpdatePostRequest updatePostRequest) {
         Post existingPost = postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Post does not exist with id: " + id));
