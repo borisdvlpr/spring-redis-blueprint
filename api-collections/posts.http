@@ -1,10 +1,11 @@
+@postId = 62644658-652b-4136-ba3a-8a1e5a8c2d6c
+
 ### get all posts
 GET {{host}}/api/v1/posts
 # optional: ?categoryId={{categoryId}}&tagId={{tagId}}
 Accept: application/json
 
 ### get a specific post by ID
-@postId = 61076f62-06b2-4942-aec4-e7fcd8d39ac2
 GET {{host}}/api/v1/posts/{{postId}}
 
 ### get drafts for logged-in user
@@ -22,10 +23,10 @@ Authorization: Bearer {{token}}
 {
   "title": "Spring Boot Redis Blueprint",
   "content": "Comprehensive guide on how to integrate Spring Boot with Redis for high-performance applications. Covers caching, session management, and more.",
-  "categoryId": "2e70aa3f-0d54-466d-ae79-f2392c5d1273",
+  "categoryId": "c275dde6-9177-418b-ac7e-428023b72e8b",
   "tagIds": [
-    "e1455697-77e8-4c45-819f-15e9992c2b3d",
-    "774bcf64-da5e-4a4f-b442-4181413cb28f"
+    "fb902164-8b96-491f-b46e-69671038d4e2",
+    "15fc52da-53e8-469d-9f54-fcb808dacb21"
   ],
   "status": "DRAFT"
 }
@@ -37,11 +38,12 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "id": "4ea6584d-0fb3-4d0b-af90-f311045313c5",
   "title": "Spring Boot Redis Blueprint Guide",
   "content": "Now includes Redis Streams and Pub/Sub examples for real-time messaging.",
+  "categoryId": "c275dde6-9177-418b-ac7e-428023b72e8b",
   "tagIds": [
-    "6c0ed2d5-7c47-4e92-ab1d-268eb9806f95"
+    "e446b1d3-60aa-49c7-a66c-d60aab0a07a2"
   ],
   "status": "PUBLISHED"
 }
