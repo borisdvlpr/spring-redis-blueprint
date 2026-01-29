@@ -1,5 +1,6 @@
 package com.boris.springredisblueprint.service.impl;
 
+import com.boris.springredisblueprint.exception.PostNotFoundException;
 import com.boris.springredisblueprint.mapper.PostMapper;
 import com.boris.springredisblueprint.model.CreatePostRequest;
 import com.boris.springredisblueprint.model.UpdatePostRequest;
@@ -13,7 +14,6 @@ import com.boris.springredisblueprint.repository.PostRepository;
 import com.boris.springredisblueprint.service.CategoryService;
 import com.boris.springredisblueprint.service.PostService;
 import com.boris.springredisblueprint.service.TagService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -37,6 +37,26 @@ public class PostServiceImpl implements PostService {
 
     private static final int WORDS_PER_MINUTE = 200;
     private final PostMapper postMapper;
+
+    @Override
+    @Transactional
+    public Post createPost(User user, CreatePostRequest createPostRequest) {
+        Post newPost = new Post();
+        newPost.setTitle(createPostRequest.getTitle());
+        newPost.setContent(createPostRequest.getContent());
+        newPost.setStatus(createPostRequest.getStatus());
+        newPost.setAuthor(user);
+        newPost.setReadingTime(calculateReadingTime(createPostRequest.getContent()));
+
+        Category category = categoryService.getCategoryById(createPostRequest.getCategoryId());
+        newPost.setCategory(category);
+
+        Set<UUID> tagIds = createPostRequest.getTagIds();
+        List<Tag> tags = tagService.getTagByIds(tagIds);
+        newPost.setTags(new HashSet<>(tags));
+
+        return postRepository.save(newPost);
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -66,7 +86,7 @@ public class PostServiceImpl implements PostService {
     @Cacheable(value = "POST_CACHE", key = "#id")
     public PostDto getPost(UUID id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Post not found."));
+                .orElseThrow(() -> new PostNotFoundException(String.format("Post with ID '%s' not found.", id)));
 
         return postMapper.toDto(post);
     }
@@ -78,30 +98,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Post createPost(User user, CreatePostRequest createPostRequest) {
-        Post newPost = new Post();
-        newPost.setTitle(createPostRequest.getTitle());
-        newPost.setContent(createPostRequest.getContent());
-        newPost.setStatus(createPostRequest.getStatus());
-        newPost.setAuthor(user);
-        newPost.setReadingTime(calculateReadingTime(createPostRequest.getContent()));
-
-        Category category = categoryService.getCategoryById(createPostRequest.getCategoryId());
-        newPost.setCategory(category);
-
-        Set<UUID> tagIds = createPostRequest.getTagIds();
-        List<Tag> tags = tagService.getTagByIds(tagIds);
-        newPost.setTags(new HashSet<>(tags));
-
-        return postRepository.save(newPost);
-    }
-
-    @Override
-    @Transactional
     @CacheEvict(value = "POST_CACHE", key = "#id")
     public Post updatePost(UUID id, UpdatePostRequest updatePostRequest) {
         Post existingPost = postRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Post does not exist with id: " + id));
+                .orElseThrow(() -> new PostNotFoundException(String.format("Post with ID '%s' not found.", id)));
 
         existingPost.setTitle(updatePostRequest.getTitle());
         String postContent = updatePostRequest.getContent();

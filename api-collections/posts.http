@@ -1,4 +1,4 @@
-@postId = 62644658-652b-4136-ba3a-8a1e5a8c2d6c
+@postId = 091ef234-4747-4bfc-8857-952ddb74ed00
 
 ### get all posts
 GET {{host}}/api/v1/posts
@@ -38,12 +38,12 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "id": "4ea6584d-0fb3-4d0b-af90-f311045313c5",
+  "id": "091ef234-4747-4bfc-8857-952ddb74ed00",
   "title": "Spring Boot Redis Blueprint Guide",
   "content": "Now includes Redis Streams and Pub/Sub examples for real-time messaging.",
   "categoryId": "c275dde6-9177-418b-ac7e-428023b72e8b",
   "tagIds": [
-    "e446b1d3-60aa-49c7-a66c-d60aab0a07a2"
+    "cdee2097-4827-4605-b5e6-af5b4e3ad353"
   ],
   "status": "PUBLISHED"
 }

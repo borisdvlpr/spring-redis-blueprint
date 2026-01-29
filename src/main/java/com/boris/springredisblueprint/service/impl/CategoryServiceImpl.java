@@ -1,9 +1,9 @@
 package com.boris.springredisblueprint.service.impl;
 
+import com.boris.springredisblueprint.exception.CategoryNotFoundException;
 import com.boris.springredisblueprint.model.entities.Category;
 import com.boris.springredisblueprint.repository.CategoryRepository;
 import com.boris.springredisblueprint.service.CategoryService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,11 +18,6 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public List<Category> listCategories() {
-        return categoryRepository.findAllWithPostCount();
-    }
-
-    @Override
     @Transactional
     public Category createCategory(Category category) {
         if (categoryRepository.existsByNameIgnoreCase(category.getName())) {
@@ -30,6 +25,17 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return categoryRepository.save(category);
+    }
+
+    @Override
+    public List<Category> listCategories() {
+        return categoryRepository.findAllWithPostCount();
+    }
+
+    @Override
+    public Category getCategoryById(UUID id) {
+        return categoryRepository.findById(id).orElseThrow(() ->
+                new CategoryNotFoundException(String.format("Post with ID '%s' not found.", id)));
     }
 
     @Override
@@ -43,10 +49,5 @@ public class CategoryServiceImpl implements CategoryService {
 
             categoryRepository.deleteById(id);
         }
-    }
-
-    @Override
-    public Category getCategoryById(UUID id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Category not found with id: " + id));
     }
 }
