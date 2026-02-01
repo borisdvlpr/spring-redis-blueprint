@@ -1,24 +1,18 @@
-package com.boris.springredisblueprint.service.impl;
+package com.boris.springredisblueprint.service.command.impl;
 
 import com.boris.springredisblueprint.exception.PostNotFoundException;
-import com.boris.springredisblueprint.mapper.PostMapper;
 import com.boris.springredisblueprint.model.CreatePostRequest;
 import com.boris.springredisblueprint.model.UpdatePostRequest;
-import com.boris.springredisblueprint.model.dto.PostDto;
 import com.boris.springredisblueprint.model.entities.Category;
 import com.boris.springredisblueprint.model.entities.Post;
 import com.boris.springredisblueprint.model.entities.Tag;
 import com.boris.springredisblueprint.model.entities.User;
-import com.boris.springredisblueprint.model.type.PostStatusEnum;
 import com.boris.springredisblueprint.repository.PostRepository;
 import com.boris.springredisblueprint.service.CategoryService;
-import com.boris.springredisblueprint.service.PostService;
 import com.boris.springredisblueprint.service.TagService;
+import com.boris.springredisblueprint.service.command.PostCommandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,13 +24,13 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PostServiceImpl implements PostService {
+public class PostCommandServiceImpl implements PostCommandService {
+
+    private final PostRepository postRepository;
     private final CategoryService categoryService;
     private final TagService tagService;
-    private final PostRepository postRepository;
 
     private static final int WORDS_PER_MINUTE = 200;
-    private final PostMapper postMapper;
 
     @Override
     @Transactional
@@ -59,49 +53,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Page<Post> getAllPosts(UUID categoryId, UUID tagId, Pageable pageable) {
-        if (categoryId != null && tagId != null) {
-            Category category = categoryService.getCategoryById(categoryId);
-            Tag tag = tagService.getTagById(tagId);
-
-            return postRepository.findAllByStatusAndCategoryAndTagsContaining(PostStatusEnum.PUBLISHED, category, tag, pageable);
-        }
-
-        if (categoryId != null) {
-            Category category = categoryService.getCategoryById(categoryId);
-            return postRepository.findAllByStatusAndCategory(PostStatusEnum.PUBLISHED, category, pageable);
-        }
-
-        if (tagId != null) {
-            Tag tag = tagService.getTagById(tagId);
-            return postRepository.findAllByStatusAndTagsContaining(PostStatusEnum.PUBLISHED, tag, pageable);
-        }
-
-        return postRepository.findAllByStatus(PostStatusEnum.PUBLISHED, pageable);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    @Cacheable(value = "POST_CACHE", key = "#id")
-    public PostDto getPost(UUID id) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new PostNotFoundException(String.format("Post with ID '%s' not found.", id)));
-
-        return postMapper.toDto(post);
-    }
-
-    @Override
-    public Page<Post> getDraftPosts(User user, Pageable pageable) {
-        return postRepository.findAllByAuthorAndStatus(user, PostStatusEnum.DRAFT, pageable);
-    }
-
-    @Override
     @Transactional
     @CacheEvict(value = "POST_CACHE", key = "#id")
     public Post updatePost(UUID id, UpdatePostRequest updatePostRequest) {
         Post existingPost = postRepository.findById(id)
-                .orElseThrow(() -> new PostNotFoundException(String.format("Post with ID '%s' not found.", id)));
+                .orElseThrow(() -> new PostNotFoundException(
+                        String.format("Post with ID '%s' not found.", id)));
 
         existingPost.setTitle(updatePostRequest.getTitle());
         String postContent = updatePostRequest.getContent();
@@ -115,8 +72,11 @@ public class PostServiceImpl implements PostService {
             existingPost.setCategory(newCategory);
         }
 
-        Set<UUID> existingTagIds = existingPost.getTags().stream().map(Tag::getId).collect(Collectors.toSet());
+        Set<UUID> existingTagIds = existingPost.getTags().stream()
+                .map(Tag::getId)
+                .collect(Collectors.toSet());
         Set<UUID> updatePostRequestTagsIds = updatePostRequest.getTagIds();
+
         if (!existingTagIds.equals(updatePostRequestTagsIds)) {
             List<Tag> newTags = tagService.getTagByIds(updatePostRequestTagsIds);
             existingPost.setTags(new HashSet<>(newTags));
@@ -126,11 +86,14 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     @CacheEvict(value = "POST_CACHE", key = "#id")
     public void deletePost(UUID id) {
-        PostDto deletePostDto = getPost(id);
-        Post deletePost = postMapper.fromDto(deletePostDto);
-        postRepository.delete(deletePost);
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new PostNotFoundException(
+                        String.format("Post with ID '%s' not found.", id)));
+
+        postRepository.delete(post);
     }
 
     private Integer calculateReadingTime(String content) {
