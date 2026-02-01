@@ -35,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategoryById(UUID id) {
         return categoryRepository.findById(id).orElseThrow(() ->
-                new CategoryNotFoundException(String.format("Post with ID '%s' not found.", id)));
+                new CategoryNotFoundException(String.format("Category with ID '%s' not found.", id)));
     }
 
     @Override
