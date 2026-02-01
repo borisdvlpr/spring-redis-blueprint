@@ -13,6 +13,7 @@ import com.boris.springredisblueprint.service.command.PostCommandService;
 import com.boris.springredisblueprint.service.query.PostQueryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+@Log4j2
 @RestController
 @RequestMapping(path = "/api/v1/posts")
 @RequiredArgsConstructor
@@ -36,13 +38,19 @@ public class PostController {
             @RequestParam(required = false) UUID tagId,
             Pageable pageable
     ) {
+        log.info("GET /api/v1/posts - categoryId: {}, tagId: {}, page: {}",
+                categoryId, tagId, pageable.getPageNumber());
+
         Page<PostDto> posts = postQueryService.getAllPosts(categoryId, tagId, pageable);
 
+        log.debug("Returning {} posts", posts.getNumberOfElements());
         return ResponseEntity.ok(posts);
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<PostDto> getPost(@PathVariable UUID id) {
+        log.info("GET /api/v1/posts/{}", id);
+
         PostDto postDto = postQueryService.getPost(id);
 
         return ResponseEntity.ok(postDto);
@@ -53,6 +61,9 @@ public class PostController {
             @RequestAttribute UUID userId,
             Pageable pageable
     ) {
+        log.info("GET /api/v1/posts/drafts - userId: {}, page: {}",
+                userId, pageable.getPageNumber());
+
         User loggedInUser = userService.getUserById(userId);
         Page<PostDto> draftPosts = postQueryService.getDraftPosts(loggedInUser, pageable);
 
@@ -64,6 +75,9 @@ public class PostController {
             @Valid @RequestBody CreatePostRequestDto createPostRequestDTO,
             @RequestAttribute UUID userId
     ) {
+        log.info("POST /api/v1/posts - title: '{}', userId: {}",
+                createPostRequestDTO.getTitle(), userId);
+
         User loggedInUser = userService.getUserById(userId);
         CreatePostRequest createPostRequest = postMapper.toCreatePostRequest(createPostRequestDTO);
 
@@ -78,6 +92,9 @@ public class PostController {
             @PathVariable UUID id,
             @Valid @RequestBody UpdatePostRequestDto updatePostRequestDTO
     ) {
+        log.info("PUT /api/v1/posts/{} - title: '{}'",
+                id, updatePostRequestDTO.getTitle());
+
         UpdatePostRequest updatePostRequest = postMapper.toUpdatePostRequest(updatePostRequestDTO);
 
         Post updatedPost = postCommandService.updatePost(id, updatePostRequest);
@@ -88,6 +105,8 @@ public class PostController {
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable UUID id) {
+        log.info("DELETE /api/v1/posts/{}", id);
+
         postCommandService.deletePost(id);
 
         return ResponseEntity.noContent().build();

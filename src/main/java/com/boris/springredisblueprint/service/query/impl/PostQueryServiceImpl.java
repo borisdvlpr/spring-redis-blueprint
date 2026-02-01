@@ -13,6 +13,7 @@ import com.boris.springredisblueprint.service.CategoryService;
 import com.boris.springredisblueprint.service.TagService;
 import com.boris.springredisblueprint.service.query.PostQueryService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class PostQueryServiceImpl implements PostQueryService {
@@ -33,6 +35,9 @@ public class PostQueryServiceImpl implements PostQueryService {
     @Override
     @Transactional(readOnly = true)
     public Page<PostDto> getAllPosts(UUID categoryId, UUID tagId, Pageable pageable) {
+        log.debug("Querying posts with categoryId: {}, tagId: {}, page: {}",
+                categoryId, tagId, pageable.getPageNumber());
+
         Page<Post> posts;
 
         if (categoryId != null && tagId != null) {
@@ -52,6 +57,7 @@ public class PostQueryServiceImpl implements PostQueryService {
             posts = postRepository.findAllByStatus(PostStatusEnum.PUBLISHED, pageable);
         }
 
+        log.debug("Found {} posts", posts.getTotalElements());
         return posts.map(postMapper::toDto);
     }
 
@@ -59,19 +65,29 @@ public class PostQueryServiceImpl implements PostQueryService {
     @Transactional(readOnly = true)
     @Cacheable(value = "POST_CACHE", key = "#id")
     public PostDto getPost(UUID id) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new PostNotFoundException(
-                        String.format("Post with ID '%s' not found.", id)));
+        log.debug("Fetching post with id: {}", id);
 
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.warn("Post not found with id: {}", id);
+                    return new PostNotFoundException(
+                            String.format("Post with ID '%s' not found.", id));
+                });
+
+        log.debug("Successfully fetched post: {}", post.getTitle());
         return postMapper.toDto(post);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Page<PostDto> getDraftPosts(User user, Pageable pageable) {
+        log.debug("Fetching draft posts for user: {}", user.getId());
+
         Page<Post> draftPosts = postRepository.findAllByAuthorAndStatus(
                 user, PostStatusEnum.DRAFT, pageable);
 
+        log.debug("Found {} draft posts for user {}",
+                draftPosts.getTotalElements(), user.getId());
         return draftPosts.map(postMapper::toDto);
     }
 }
