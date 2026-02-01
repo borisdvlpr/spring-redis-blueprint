@@ -1,7 +1,7 @@
 package com.boris.springredisblueprint.service.impl;
 
 import com.boris.springredisblueprint.exception.CategoryNotFoundException;
-import com.boris.springredisblueprint.model.entities.Category;
+import com.boris.springredisblueprint.model.entity.Category;
 import com.boris.springredisblueprint.repository.CategoryRepository;
 import com.boris.springredisblueprint.service.CategoryService;
 import jakarta.transaction.Transactional;

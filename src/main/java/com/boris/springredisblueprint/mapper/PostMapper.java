@@ -5,7 +5,7 @@ import com.boris.springredisblueprint.model.UpdatePostRequest;
 import com.boris.springredisblueprint.model.dto.CreatePostRequestDto;
 import com.boris.springredisblueprint.model.dto.PostDto;
 import com.boris.springredisblueprint.model.dto.UpdatePostRequestDto;
-import com.boris.springredisblueprint.model.entities.Post;
+import com.boris.springredisblueprint.model.entity.Post;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;

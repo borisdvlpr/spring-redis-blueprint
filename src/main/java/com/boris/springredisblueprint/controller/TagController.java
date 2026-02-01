@@ -2,7 +2,7 @@ package com.boris.springredisblueprint.controller;
 
 import com.boris.springredisblueprint.model.dto.CreateTagsRequestDto;
 import com.boris.springredisblueprint.model.dto.TagDto;
-import com.boris.springredisblueprint.model.entities.Tag;
+import com.boris.springredisblueprint.model.entity.Tag;
 import com.boris.springredisblueprint.mapper.TagMapper;
 import com.boris.springredisblueprint.service.TagService;
 import lombok.RequiredArgsConstructor;

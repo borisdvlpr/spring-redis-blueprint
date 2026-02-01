@@ -1,7 +1,7 @@
 package com.boris.springredisblueprint.service.query;
 
 import com.boris.springredisblueprint.model.dto.PostDto;
-import com.boris.springredisblueprint.model.entities.User;
+import com.boris.springredisblueprint.model.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

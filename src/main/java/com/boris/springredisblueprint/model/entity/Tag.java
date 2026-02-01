@@ -1,4 +1,4 @@
-package com.boris.springredisblueprint.model.entities;
+package com.boris.springredisblueprint.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

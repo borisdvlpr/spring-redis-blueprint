@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.security;
 
-import com.boris.springredisblueprint.model.entities.User;
+import com.boris.springredisblueprint.model.entity.User;
 import com.boris.springredisblueprint.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

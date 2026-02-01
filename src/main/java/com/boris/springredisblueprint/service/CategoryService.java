@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.service;
 
-import com.boris.springredisblueprint.model.entities.Category;
+import com.boris.springredisblueprint.model.entity.Category;
 
 import java.util.List;
 import java.util.UUID;

@@ -2,7 +2,7 @@ package com.boris.springredisblueprint.controller;
 
 import com.boris.springredisblueprint.model.dto.CategoryDto;
 import com.boris.springredisblueprint.model.dto.CreateCategoryRequestDto;
-import com.boris.springredisblueprint.model.entities.Category;
+import com.boris.springredisblueprint.model.entity.Category;
 import com.boris.springredisblueprint.mapper.CategoryMapper;
 import com.boris.springredisblueprint.service.CategoryService;
 import jakarta.validation.Valid;

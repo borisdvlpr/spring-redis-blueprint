@@ -1,10 +1,10 @@
 package com.boris.springredisblueprint.repository;
 
 import com.boris.springredisblueprint.model.type.PostStatusEnum;
-import com.boris.springredisblueprint.model.entities.Category;
-import com.boris.springredisblueprint.model.entities.Post;
-import com.boris.springredisblueprint.model.entities.Tag;
-import com.boris.springredisblueprint.model.entities.User;
+import com.boris.springredisblueprint.model.entity.Category;
+import com.boris.springredisblueprint.model.entity.Post;
+import com.boris.springredisblueprint.model.entity.Tag;
+import com.boris.springredisblueprint.model.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;

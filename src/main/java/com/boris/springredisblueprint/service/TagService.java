@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.service;
 
-import com.boris.springredisblueprint.model.entities.Tag;
+import com.boris.springredisblueprint.model.entity.Tag;
 
 import java.util.List;
 import java.util.Set;

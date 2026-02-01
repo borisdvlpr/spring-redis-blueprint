@@ -1,6 +1,6 @@
 package com.boris.springredisblueprint.repository;
 
-import com.boris.springredisblueprint.model.entities.Tag;
+import com.boris.springredisblueprint.model.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
