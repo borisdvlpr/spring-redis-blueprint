@@ -1,5 +1,6 @@
 package com.boris.springredisblueprint.controller;
 
+import com.boris.springredisblueprint.mapper.PostMapper;
 import com.boris.springredisblueprint.model.CreatePostRequest;
 import com.boris.springredisblueprint.model.UpdatePostRequest;
 import com.boris.springredisblueprint.model.dto.CreatePostRequestDto;
@@ -7,9 +8,9 @@ import com.boris.springredisblueprint.model.dto.PostDto;
 import com.boris.springredisblueprint.model.dto.UpdatePostRequestDto;
 import com.boris.springredisblueprint.model.entities.Post;
 import com.boris.springredisblueprint.model.entities.User;
-import com.boris.springredisblueprint.mapper.PostMapper;
-import com.boris.springredisblueprint.service.PostService;
 import com.boris.springredisblueprint.service.UserService;
+import com.boris.springredisblueprint.service.command.PostCommandService;
+import com.boris.springredisblueprint.service.query.PostQueryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,7 +25,8 @@ import java.util.UUID;
 @RequestMapping(path = "/api/v1/posts")
 @RequiredArgsConstructor
 public class PostController {
-    private final PostService postService;
+    private final PostQueryService postQueryService;
+    private final PostCommandService postCommandService;
     private final PostMapper postMapper;
     private final UserService userService;
 
@@ -34,26 +36,27 @@ public class PostController {
             @RequestParam(required = false) UUID tagId,
             Pageable pageable
     ) {
-        Page<Post> posts = postService.getAllPosts(categoryId, tagId, pageable);
+        Page<PostDto> posts = postQueryService.getAllPosts(categoryId, tagId, pageable);
 
-        return ResponseEntity.ok(posts.map(postMapper::toDto));
+        return ResponseEntity.ok(posts);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<PostDto> getPost(
-            @PathVariable UUID id
-    ) {
-        PostDto postDto = postService.getPost(id);
+    public ResponseEntity<PostDto> getPost(@PathVariable UUID id) {
+        PostDto postDto = postQueryService.getPost(id);
 
         return ResponseEntity.ok(postDto);
     }
 
     @GetMapping(path = "/drafts")
-    public ResponseEntity<Page<PostDto>> getDrafts(@RequestAttribute UUID userId, Pageable pageable) {
+    public ResponseEntity<Page<PostDto>> getDrafts(
+            @RequestAttribute UUID userId,
+            Pageable pageable
+    ) {
         User loggedInUser = userService.getUserById(userId);
-        Page<Post> draftPosts = postService.getDraftPosts(loggedInUser, pageable);
+        Page<PostDto> draftPosts = postQueryService.getDraftPosts(loggedInUser, pageable);
 
-        return ResponseEntity.ok(draftPosts.map(postMapper::toDto));
+        return ResponseEntity.ok(draftPosts);
     }
 
     @PostMapping
@@ -63,7 +66,8 @@ public class PostController {
     ) {
         User loggedInUser = userService.getUserById(userId);
         CreatePostRequest createPostRequest = postMapper.toCreatePostRequest(createPostRequestDTO);
-        Post createdPost = postService.createPost(loggedInUser, createPostRequest);
+
+        Post createdPost = postCommandService.createPost(loggedInUser, createPostRequest);
         PostDto createdPostDto = postMapper.toDto(createdPost);
 
         return new ResponseEntity<>(createdPostDto, HttpStatus.CREATED);
@@ -75,17 +79,17 @@ public class PostController {
             @Valid @RequestBody UpdatePostRequestDto updatePostRequestDTO
     ) {
         UpdatePostRequest updatePostRequest = postMapper.toUpdatePostRequest(updatePostRequestDTO);
-        Post updatedPost = postService.updatePost(id, updatePostRequest);
+
+        Post updatedPost = postCommandService.updatePost(id, updatePostRequest);
         PostDto updatedPostDto = postMapper.toDto(updatedPost);
 
         return ResponseEntity.ok(updatedPostDto);
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> deletePost(
-            @PathVariable UUID id
-    ) {
-        postService.deletePost(id);
+    public ResponseEntity<Void> deletePost(@PathVariable UUID id) {
+        postCommandService.deletePost(id);
+
         return ResponseEntity.noContent().build();
     }
 }
