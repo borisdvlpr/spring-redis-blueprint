@@ -1,20 +1,19 @@
-package com.boris.springredisblueprint.service.impl;
+package com.boris.springredisblueprint.service.command.impl;
 
-import com.boris.springredisblueprint.exception.TagNotFoundException;
 import com.boris.springredisblueprint.model.entity.Tag;
 import com.boris.springredisblueprint.repository.TagRepository;
-import com.boris.springredisblueprint.service.TagService;
+import com.boris.springredisblueprint.service.command.TagCommandService;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
-public class TagServiceImpl implements TagService {
-    private final TagRepository tagRepository;
+@AllArgsConstructor
+public class TagCommandServiceImpl implements TagCommandService {
+    TagRepository tagRepository;
 
     @Override
     @Transactional
@@ -38,27 +37,6 @@ public class TagServiceImpl implements TagService {
         savedTags.addAll(existingTags);
 
         return savedTags;
-    }
-
-    @Override
-    public List<Tag> getTags() {
-        return tagRepository.findAllWithPostCount();
-    }
-
-    @Override
-    public Tag getTagById(UUID id) {
-        return tagRepository.findById(id).orElseThrow(() ->
-                new TagNotFoundException(String.format("Tag with ID '%s' not found.", id)));
-    }
-
-    @Override
-    public List<Tag> getTagByIds(Set<UUID> ids) {
-        List<Tag> foundTags = tagRepository.findAllById(ids);
-        if (foundTags.size() != ids.size()) {
-            throw new TagNotFoundException("Not all specified tag IDs exist.");
-        }
-
-        return foundTags;
     }
 
     @Override
