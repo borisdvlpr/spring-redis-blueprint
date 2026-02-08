@@ -9,9 +9,9 @@ import com.boris.springredisblueprint.model.entity.Tag;
 import com.boris.springredisblueprint.model.entity.User;
 import com.boris.springredisblueprint.model.type.PostStatusEnum;
 import com.boris.springredisblueprint.repository.PostRepository;
-import com.boris.springredisblueprint.service.CategoryService;
-import com.boris.springredisblueprint.service.TagService;
+import com.boris.springredisblueprint.service.query.CategoryQueryService;
 import com.boris.springredisblueprint.service.query.PostQueryService;
+import com.boris.springredisblueprint.service.query.TagQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.Cacheable;
@@ -29,8 +29,8 @@ public class PostQueryServiceImpl implements PostQueryService {
 
     private final PostRepository postRepository;
     private final PostMapper postMapper;
-    private final CategoryService categoryService;
-    private final TagService tagService;
+    private final CategoryQueryService categoryQueryService;
+    private final TagQueryService tagQueryService;
 
     @Override
     @Transactional(readOnly = true)
@@ -41,16 +41,16 @@ public class PostQueryServiceImpl implements PostQueryService {
         Page<Post> posts;
 
         if (categoryId != null && tagId != null) {
-            Category category = categoryService.getCategoryById(categoryId);
-            Tag tag = tagService.getTagById(tagId);
+            Category category = categoryQueryService.getCategoryById(categoryId);
+            Tag tag = tagQueryService.getTagById(tagId);
             posts = postRepository.findAllByStatusAndCategoryAndTagsContaining(
                     PostStatusEnum.PUBLISHED, category, tag, pageable);
         } else if (categoryId != null) {
-            Category category = categoryService.getCategoryById(categoryId);
+            Category category = categoryQueryService.getCategoryById(categoryId);
             posts = postRepository.findAllByStatusAndCategory(
                     PostStatusEnum.PUBLISHED, category, pageable);
         } else if (tagId != null) {
-            Tag tag = tagService.getTagById(tagId);
+            Tag tag = tagQueryService.getTagById(tagId);
             posts = postRepository.findAllByStatusAndTagsContaining(
                     PostStatusEnum.PUBLISHED, tag, pageable);
         } else {
