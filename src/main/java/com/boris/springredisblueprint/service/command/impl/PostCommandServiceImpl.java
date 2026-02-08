@@ -8,9 +8,9 @@ import com.boris.springredisblueprint.model.entity.Post;
 import com.boris.springredisblueprint.model.entity.Tag;
 import com.boris.springredisblueprint.model.entity.User;
 import com.boris.springredisblueprint.repository.PostRepository;
-import com.boris.springredisblueprint.service.CategoryService;
-import com.boris.springredisblueprint.service.TagService;
 import com.boris.springredisblueprint.service.command.PostCommandService;
+import com.boris.springredisblueprint.service.query.CategoryQueryService;
+import com.boris.springredisblueprint.service.query.TagQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.CacheEvict;
@@ -29,8 +29,8 @@ import java.util.stream.Collectors;
 public class PostCommandServiceImpl implements PostCommandService {
 
     private final PostRepository postRepository;
-    private final CategoryService categoryService;
-    private final TagService tagService;
+    private final CategoryQueryService categoryQueryService;
+    private final TagQueryService tagQueryService;
 
     private static final int WORDS_PER_MINUTE = 200;
 
@@ -47,11 +47,11 @@ public class PostCommandServiceImpl implements PostCommandService {
         newPost.setAuthor(user);
         newPost.setReadingTime(calculateReadingTime(createPostRequest.getContent()));
 
-        Category category = categoryService.getCategoryById(createPostRequest.getCategoryId());
+        Category category = categoryQueryService.getCategoryById(createPostRequest.getCategoryId());
         newPost.setCategory(category);
 
         Set<UUID> tagIds = createPostRequest.getTagIds();
-        List<Tag> tags = tagService.getTagByIds(tagIds);
+        List<Tag> tags = tagQueryService.getTagByIds(tagIds);
         newPost.setTags(new HashSet<>(tags));
 
         Post savedPost = postRepository.save(newPost);
@@ -82,7 +82,7 @@ public class PostCommandServiceImpl implements PostCommandService {
         UUID updatePostRequestCategoryId = updatePostRequest.getCategoryId();
         if (!existingPost.getCategory().getId().equals(updatePostRequestCategoryId)) {
             log.debug("Updating category for post {}", id);
-            Category newCategory = categoryService.getCategoryById(updatePostRequestCategoryId);
+            Category newCategory = categoryQueryService.getCategoryById(updatePostRequestCategoryId);
             existingPost.setCategory(newCategory);
         }
 
@@ -93,7 +93,7 @@ public class PostCommandServiceImpl implements PostCommandService {
 
         if (!existingTagIds.equals(updatePostRequestTagsIds)) {
             log.debug("Updating tags for post {}", id);
-            List<Tag> newTags = tagService.getTagByIds(updatePostRequestTagsIds);
+            List<Tag> newTags = tagQueryService.getTagByIds(updatePostRequestTagsIds);
             existingPost.setTags(new HashSet<>(newTags));
         }
 
