@@ -4,7 +4,8 @@ import com.boris.springredisblueprint.model.dto.CategoryDto;
 import com.boris.springredisblueprint.model.dto.CreateCategoryRequestDto;
 import com.boris.springredisblueprint.model.entity.Category;
 import com.boris.springredisblueprint.mapper.CategoryMapper;
-import com.boris.springredisblueprint.service.CategoryService;
+import com.boris.springredisblueprint.service.command.CategoryCommandService;
+import com.boris.springredisblueprint.service.query.CategoryQueryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,14 +19,13 @@ import java.util.UUID;
 @RequestMapping(path = "api/v1/categories")
 @RequiredArgsConstructor
 public class CategoryController {
-    private final CategoryService categoryService;
+    private final CategoryCommandService categoryCommandService;
+    private final CategoryQueryService categoryQueryService;
     private final CategoryMapper categoryMapper;
 
     @GetMapping
-    public ResponseEntity<List<CategoryDto>> listCategories() {
-        List<CategoryDto> categories = categoryService.listCategories().stream()
-                .map(categoryMapper::toDTO)
-                .toList();
+    public ResponseEntity<List<CategoryDto>> getAllCategories() {
+        List<CategoryDto> categories = categoryQueryService.getAllCategories();
 
         return ResponseEntity.ok(categories);
     }
@@ -34,7 +34,7 @@ public class CategoryController {
     public ResponseEntity<CategoryDto> createCategory(
             @Valid @RequestBody CreateCategoryRequestDto createCategoryRequestDto) {
         Category categoryToCreate = categoryMapper.toEntity(createCategoryRequestDto);
-        Category savedCategory = categoryService.createCategory(categoryToCreate);
+        Category savedCategory = categoryCommandService.createCategory(categoryToCreate);
 
         return new ResponseEntity<>(
                 categoryMapper.toDTO(savedCategory),
@@ -44,7 +44,7 @@ public class CategoryController {
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable UUID id) {
-        categoryService.deleteCategory(id);
+        categoryCommandService.deleteCategory(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
