@@ -1,6 +1,8 @@
 package com.boris.springredisblueprint.service.query.impl;
 
 import com.boris.springredisblueprint.exception.TagNotFoundException;
+import com.boris.springredisblueprint.mapper.TagMapper;
+import com.boris.springredisblueprint.model.dto.TagDto;
 import com.boris.springredisblueprint.model.entity.Tag;
 import com.boris.springredisblueprint.repository.TagRepository;
 import com.boris.springredisblueprint.service.query.TagQueryService;
@@ -16,10 +18,13 @@ import java.util.UUID;
 public class TagQueryServiceImpl implements TagQueryService {
 
     private final TagRepository tagRepository;
+    private final TagMapper tagMapper;
 
     @Override
-    public List<Tag> getTags() {
-        return tagRepository.findAllWithPostCount();
+    public List<TagDto> getTags() {
+        return tagRepository.findAllWithPostCount().stream()
+                .map(tagMapper::toDto)
+                .toList();
     }
 
     @Override

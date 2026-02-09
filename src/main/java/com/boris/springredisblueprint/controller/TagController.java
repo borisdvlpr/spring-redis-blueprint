@@ -27,18 +27,17 @@ public class TagController {
     @GetMapping
     public ResponseEntity<List<TagDto>> getAllTags() {
         log.info("GET /api/v1/tags");
-        List<Tag> tags = tagQueryService.getTags();
-        List<TagDto> tagRespons = tags.stream().map(tagMapper::toTagResponse).toList();
+        List<TagDto> tags = tagQueryService.getTags();
 
         log.debug("Returning {} tags", tags.size());
-        return ResponseEntity.ok(tagRespons);
+        return ResponseEntity.ok(tags);
     }
 
     @PostMapping
     public ResponseEntity<List<TagDto>> createTags(@RequestBody CreateTagsRequestDto createTagsRequestDto) {
         log.info("POST /api/v1/tags");
         List<Tag> savedTags = tagCommandService.createTags(createTagsRequestDto.getNames());
-        List<TagDto> createdTagsResponse = savedTags.stream().map(tagMapper::toTagResponse).toList();
+        List<TagDto> createdTagsResponse = savedTags.stream().map(tagMapper::toDto).toList();
 
         log.debug("Created {} tags", createdTagsResponse.size());
         return new ResponseEntity<>(
