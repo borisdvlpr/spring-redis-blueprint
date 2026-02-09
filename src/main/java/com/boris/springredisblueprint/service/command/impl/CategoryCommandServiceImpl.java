@@ -5,11 +5,13 @@ import com.boris.springredisblueprint.repository.CategoryRepository;
 import com.boris.springredisblueprint.service.command.CategoryCommandService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class CategoryCommandServiceImpl implements CategoryCommandService {
@@ -18,15 +20,20 @@ public class CategoryCommandServiceImpl implements CategoryCommandService {
     @Override
     @Transactional
     public Category createCategory(Category category) {
+        log.info("Creating new category '{}'", category.getName());
         if (categoryRepository.existsByNameIgnoreCase(category.getName())) {
             throw new IllegalArgumentException("Category already exists with name: " + category.getName());
         }
 
-        return categoryRepository.save(category);
+        Category savedCategory = categoryRepository.save(category);
+        log.info("Successfully created post with id: '{}'", savedCategory.getId());
+
+        return savedCategory;
     }
 
     @Override
     public void deleteCategory(UUID id) {
+        log.info("Deleting post with id: '{}'", id);
         Optional<Category> category = categoryRepository.findById(id);
 
         if (category.isPresent()) {
@@ -35,6 +42,7 @@ public class CategoryCommandServiceImpl implements CategoryCommandService {
             }
 
             categoryRepository.deleteById(id);
+            log.info("Successfully deleted category: '{}'", id);
         }
     }
 }

@@ -37,7 +37,7 @@ public class PostCommandServiceImpl implements PostCommandService {
     @Override
     @Transactional
     public Post createPost(User user, CreatePostRequest createPostRequest) {
-        log.info("Creating new post '{}' by user {}",
+        log.info("Creating new post '{}' by user '{}'",
                 createPostRequest.getTitle(), user.getId());
 
         Post newPost = new Post();
@@ -55,7 +55,7 @@ public class PostCommandServiceImpl implements PostCommandService {
         newPost.setTags(new HashSet<>(tags));
 
         Post savedPost = postRepository.save(newPost);
-        log.info("Successfully created post with id: {}", savedPost.getId());
+        log.info("Successfully created post with id: '{}'", savedPost.getId());
 
         return savedPost;
     }
@@ -64,11 +64,11 @@ public class PostCommandServiceImpl implements PostCommandService {
     @Transactional
     @CacheEvict(value = "POST_CACHE", key = "#id")
     public Post updatePost(UUID id, UpdatePostRequest updatePostRequest) {
-        log.info("Updating post with id: {}", id);
+        log.info("Updating post with id: '{}'", id);
 
         Post existingPost = postRepository.findById(id)
                 .orElseThrow(() -> {
-                    log.error("Post not found for update: {}", id);
+                    log.error("Post not found for update: '{}'", id);
                     return new PostNotFoundException(
                             String.format("Post with ID '%s' not found.", id));
                 });
@@ -98,7 +98,7 @@ public class PostCommandServiceImpl implements PostCommandService {
         }
 
         Post updatedPost = postRepository.save(existingPost);
-        log.info("Successfully updated post: {}", id);
+        log.info("Successfully updated post: '{}'", id);
 
         return updatedPost;
     }
@@ -107,7 +107,7 @@ public class PostCommandServiceImpl implements PostCommandService {
     @Transactional
     @CacheEvict(value = "POST_CACHE", key = "#id")
     public void deletePost(UUID id) {
-        log.info("Deleting post with id: {}", id);
+        log.info("Deleting post with id: '{}'", id);
 
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> {
@@ -117,7 +117,7 @@ public class PostCommandServiceImpl implements PostCommandService {
                 });
 
         postRepository.delete(post);
-        log.info("Successfully deleted post: {}", id);
+        log.info("Successfully deleted post: '{}'", id);
     }
 
     private Integer calculateReadingTime(String content) {
