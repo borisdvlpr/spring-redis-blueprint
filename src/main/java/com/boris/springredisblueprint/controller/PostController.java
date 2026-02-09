@@ -50,8 +50,10 @@ public class PostController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<PostDto> getPost(@PathVariable UUID id) {
         log.info("GET /api/v1/posts/{}", id);
-
         PostDto postDto = postQueryService.getPost(id);
+
+        log.debug("Returning post - title: '{}', id: '{}'",
+                postDto.getTitle(), postDto.getId());
 
         return ResponseEntity.ok(postDto);
     }
@@ -67,6 +69,7 @@ public class PostController {
         User loggedInUser = userService.getUserById(userId);
         Page<PostDto> draftPosts = postQueryService.getDraftPosts(loggedInUser, pageable);
 
+        log.debug("Returning {} draft posts", draftPosts.getNumberOfElements());
         return ResponseEntity.ok(draftPosts);
     }
 
@@ -84,6 +87,9 @@ public class PostController {
         Post createdPost = postCommandService.createPost(loggedInUser, createPostRequest);
         PostDto createdPostDto = postMapper.toDto(createdPost);
 
+        log.debug("Returning saved post - title: '{}', id: '{}'",
+                createdPostDto.getTitle(), createdPostDto.getId());
+
         return new ResponseEntity<>(createdPostDto, HttpStatus.CREATED);
     }
 
@@ -100,15 +106,18 @@ public class PostController {
         Post updatedPost = postCommandService.updatePost(id, updatePostRequest);
         PostDto updatedPostDto = postMapper.toDto(updatedPost);
 
+        log.debug("Returning updated post - title: '{}', id: '{}'",
+                updatedPostDto.getTitle(), updatedPostDto.getId());
+
         return ResponseEntity.ok(updatedPostDto);
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable UUID id) {
         log.info("DELETE /api/v1/posts/{}", id);
-
         postCommandService.deletePost(id);
 
+        log.debug("Deleted post - id: '{}'", id);
         return ResponseEntity.noContent().build();
     }
 }
