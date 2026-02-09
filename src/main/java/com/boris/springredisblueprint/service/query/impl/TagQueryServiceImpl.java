@@ -14,7 +14,8 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class TagQueryServiceImpl implements TagQueryService {
-    TagRepository tagRepository;
+
+    private final TagRepository tagRepository;
 
     @Override
     public List<Tag> getTags() {
