@@ -43,7 +43,7 @@ public class PostController {
 
         Page<PostDto> posts = postQueryService.getAllPosts(categoryId, tagId, pageable);
 
-        log.debug("Returning {} posts", posts.getNumberOfElements());
+        logPageResult("posts", posts);
         return ResponseEntity.ok(posts);
     }
 
@@ -69,7 +69,7 @@ public class PostController {
         User loggedInUser = userService.getUserById(userId);
         Page<PostDto> draftPosts = postQueryService.getDraftPosts(loggedInUser, pageable);
 
-        log.debug("Returning {} draft posts", draftPosts.getNumberOfElements());
+        logPageResult("draft posts", draftPosts);
         return ResponseEntity.ok(draftPosts);
     }
 
@@ -119,5 +119,13 @@ public class PostController {
 
         log.debug("Deleted post - id: '{}'", id);
         return ResponseEntity.noContent().build();
+    }
+
+    private void logPageResult(String entityType, Page<?> page) {
+        log.debug("Returning {} {} (page {}, total elements: {})",
+                page.getNumberOfElements(),
+                entityType,
+                page.getNumber(),
+                page.getTotalElements());
     }
 }
