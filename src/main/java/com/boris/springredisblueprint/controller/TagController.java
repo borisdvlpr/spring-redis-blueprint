@@ -54,5 +54,4 @@ public class TagController {
         log.debug("Deleted tag - id: '{}'", id);
         return ResponseEntity.noContent().build();
     }
-
 }

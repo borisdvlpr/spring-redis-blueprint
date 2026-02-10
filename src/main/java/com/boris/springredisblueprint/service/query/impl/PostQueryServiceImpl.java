@@ -35,7 +35,7 @@ public class PostQueryServiceImpl implements PostQueryService {
     @Override
     @Transactional(readOnly = true)
     public Page<PostDto> getAllPosts(UUID categoryId, UUID tagId, Pageable pageable) {
-        log.debug("Querying posts with categoryId: {}, tagId: {}, page: {}",
+        log.info("Querying posts with categoryId: {}, tagId: {}, page: {}",
                 categoryId, tagId, pageable.getPageNumber());
 
         Page<Post> posts;
@@ -57,7 +57,7 @@ public class PostQueryServiceImpl implements PostQueryService {
             posts = postRepository.findAllByStatus(PostStatusEnum.PUBLISHED, pageable);
         }
 
-        log.debug("Found {} posts", posts.getTotalElements());
+        log.info("Found {} posts", posts.getTotalElements());
         return posts.map(postMapper::toDto);
     }
 
@@ -65,7 +65,7 @@ public class PostQueryServiceImpl implements PostQueryService {
     @Transactional(readOnly = true)
     @Cacheable(value = "POST_CACHE", key = "#id")
     public PostDto getPost(UUID id) {
-        log.debug("Fetching post with id: {}", id);
+        log.info("Fetching post with id: {}", id);
 
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> {
@@ -74,19 +74,19 @@ public class PostQueryServiceImpl implements PostQueryService {
                             String.format("Post with ID '%s' not found.", id));
                 });
 
-        log.debug("Successfully fetched post: {}", post.getTitle());
+        log.info("Successfully fetched post: {}", post.getTitle());
         return postMapper.toDto(post);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Page<PostDto> getDraftPosts(User user, Pageable pageable) {
-        log.debug("Fetching draft posts for user: {}", user.getId());
+        log.info("Fetching draft posts for user: {}", user.getId());
 
         Page<Post> draftPosts = postRepository.findAllByAuthorAndStatus(
                 user, PostStatusEnum.DRAFT, pageable);
 
-        log.debug("Found {} draft posts for user {}",
+        log.info("Found {} draft posts for user {}",
                 draftPosts.getTotalElements(), user.getId());
         return draftPosts.map(postMapper::toDto);
     }
