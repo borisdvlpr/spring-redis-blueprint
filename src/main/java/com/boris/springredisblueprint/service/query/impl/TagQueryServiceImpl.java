@@ -1,5 +1,6 @@
 package com.boris.springredisblueprint.service.query.impl;
 
+import com.boris.springredisblueprint.exception.CategoryNotFoundException;
 import com.boris.springredisblueprint.exception.TagNotFoundException;
 import com.boris.springredisblueprint.mapper.TagMapper;
 import com.boris.springredisblueprint.model.dto.TagDto;
@@ -7,12 +8,14 @@ import com.boris.springredisblueprint.model.entity.Tag;
 import com.boris.springredisblueprint.repository.TagRepository;
 import com.boris.springredisblueprint.service.query.TagQueryService;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+@Log4j2
 @Service
 @AllArgsConstructor
 public class TagQueryServiceImpl implements TagQueryService {
@@ -22,23 +25,41 @@ public class TagQueryServiceImpl implements TagQueryService {
 
     @Override
     public List<TagDto> getTags() {
-        return tagRepository.findAllWithPostCount().stream()
+        List<TagDto> tags = tagRepository.findAllWithPostCount().stream()
                 .map(tagMapper::toDto)
                 .toList();
+
+        log.info("Found {} tags", tags.size());
+
+        return tags;
     }
 
     @Override
     public Tag getTagById(UUID id) {
-        return tagRepository.findById(id).orElseThrow(() ->
-                new TagNotFoundException(String.format("Tag with ID '%s' not found.", id)));
+        log.info("Fetching tag with id: {}", id);
+
+        Tag tag = tagRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.warn("Tag not found with id: {}", id);
+                    return new CategoryNotFoundException(
+                            String.format("Tag with ID '%s' not found.", id));
+                });
+
+        log.info("Successfully fetched tag: {}", tag.getName());
+
+        return tag;
     }
 
     @Override
     public List<Tag> getTagByIds(Set<UUID> ids) {
+        log.info("Fetching tag with id: {}", ids.toArray());
+
         List<Tag> foundTags = tagRepository.findAllById(ids);
         if (foundTags.size() != ids.size()) {
             throw new TagNotFoundException("Not all specified tag IDs exist.");
         }
+
+        log.info("Found {} tags", foundTags.size());
 
         return foundTags;
     }
