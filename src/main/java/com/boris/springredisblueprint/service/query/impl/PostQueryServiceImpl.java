@@ -75,6 +75,7 @@ public class PostQueryServiceImpl implements PostQueryService {
                 });
 
         log.info("Successfully fetched post: {}", post.getTitle());
+
         return postMapper.toDto(post);
     }
 
