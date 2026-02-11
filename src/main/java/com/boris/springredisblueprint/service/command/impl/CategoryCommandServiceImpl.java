@@ -26,14 +26,14 @@ public class CategoryCommandServiceImpl implements CategoryCommandService {
         }
 
         Category savedCategory = categoryRepository.save(category);
-        log.info("Successfully created post with id: '{}'", savedCategory.getId());
+        log.info("Successfully created category with id: '{}'", savedCategory.getId());
 
         return savedCategory;
     }
 
     @Override
     public void deleteCategory(UUID id) {
-        log.info("Deleting post with id: '{}'", id);
+        log.info("Deleting category with id: '{}'", id);
         Optional<Category> category = categoryRepository.findById(id);
 
         if (category.isPresent()) {
