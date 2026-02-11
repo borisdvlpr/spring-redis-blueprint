@@ -1,13 +1,11 @@
 package com.boris.springredisblueprint.service.query.impl;
 
-import com.boris.springredisblueprint.exception.CategoryNotFoundException;
 import com.boris.springredisblueprint.exception.TagNotFoundException;
 import com.boris.springredisblueprint.mapper.TagMapper;
 import com.boris.springredisblueprint.model.dto.TagDto;
 import com.boris.springredisblueprint.model.entity.Tag;
 import com.boris.springredisblueprint.repository.TagRepository;
 import com.boris.springredisblueprint.service.query.TagQueryService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -29,7 +27,7 @@ public class TagQueryServiceImpl implements TagQueryService {
                 .map(tagMapper::toDto)
                 .toList();
 
-        log.info("Found {} tags", tags.size());
+        logListSize(tags);
 
         return tags;
     }
@@ -59,8 +57,12 @@ public class TagQueryServiceImpl implements TagQueryService {
             throw new TagNotFoundException("Not all specified tag IDs exist.");
         }
 
-        log.info("Found {} tags", foundTags.size());
+        logListSize(foundTags);
 
         return foundTags;
+    }
+
+    private void logListSize(List<?> list) {
+        log.info("Found {} tags", list.size());
     }
 }
