@@ -41,7 +41,7 @@ public class TagQueryServiceImpl implements TagQueryService {
         Tag tag = tagRepository.findById(id)
                 .orElseThrow(() -> {
                     log.warn("Tag not found with id: {}", id);
-                    return new CategoryNotFoundException(
+                    return new TagNotFoundException(
                             String.format("Tag with ID '%s' not found.", id));
                 });
 
