@@ -4,7 +4,7 @@ import com.boris.springredisblueprint.model.entity.Tag;
 import com.boris.springredisblueprint.repository.TagRepository;
 import com.boris.springredisblueprint.service.command.TagCommandService;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Log4j2
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TagCommandServiceImpl implements TagCommandService {
     TagRepository tagRepository;
 
