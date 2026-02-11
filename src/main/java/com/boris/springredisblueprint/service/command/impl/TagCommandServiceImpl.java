@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class TagCommandServiceImpl implements TagCommandService {
-    TagRepository tagRepository;
+    private final TagRepository tagRepository;
 
     @Override
     @Transactional
