@@ -57,6 +57,6 @@ public class CategoryController {
         categoryCommandService.deleteCategory(id);
 
         log.debug("Deleted category - id: '{}'", id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }
