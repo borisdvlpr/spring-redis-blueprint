@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Log4j2
 @RestController
-@RequestMapping(path = "api/v1/categories")
+@RequestMapping(path = "/api/v1/categories")
 @RequiredArgsConstructor
 public class CategoryController {
     private final CategoryCommandService categoryCommandService;
