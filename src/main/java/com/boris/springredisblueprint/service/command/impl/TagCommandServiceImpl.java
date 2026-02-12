@@ -1,5 +1,6 @@
 package com.boris.springredisblueprint.service.command.impl;
 
+import com.boris.springredisblueprint.exception.TagNotFoundException;
 import com.boris.springredisblueprint.model.entity.Tag;
 import com.boris.springredisblueprint.repository.TagRepository;
 import com.boris.springredisblueprint.service.command.TagCommandService;
@@ -50,13 +51,18 @@ public class TagCommandServiceImpl implements TagCommandService {
     public void deleteTag(UUID id) {
         log.info("Deleting tag with id: '{}'", id);
 
-        tagRepository.findById(id).ifPresent(tag -> {
-            if (!tag.getPosts().isEmpty()) {
-                throw new IllegalStateException("Cannot delete tag with posts.");
-            }
+        Tag tag = tagRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Tag not found for deletion: {}", id);
+                    return new TagNotFoundException(
+                            String.format("Tag with ID '%s' not found.", id));
+                });
 
-            tagRepository.deleteById(id);
-            log.info("Successfully deleted tag: '{}'", id);
-        });
+        if (!tag.getPosts().isEmpty()) {
+            throw new IllegalStateException("Cannot delete tag with associated posts.");
+        }
+
+        tagRepository.delete(tag);
+        log.info("Successfully deleted tag: '{}'", id);
     }
 }
