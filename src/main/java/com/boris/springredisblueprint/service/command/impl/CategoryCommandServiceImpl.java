@@ -32,6 +32,7 @@ public class CategoryCommandServiceImpl implements CategoryCommandService {
     }
 
     @Override
+    @Transactional
     public void deleteCategory(UUID id) {
         log.info("Deleting category with id: '{}'", id);
         Optional<Category> category = categoryRepository.findById(id);
