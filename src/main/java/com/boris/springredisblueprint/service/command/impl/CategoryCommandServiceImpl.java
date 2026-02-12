@@ -1,5 +1,6 @@
 package com.boris.springredisblueprint.service.command.impl;
 
+import com.boris.springredisblueprint.exception.CategoryNotFoundException;
 import com.boris.springredisblueprint.model.entity.Category;
 import com.boris.springredisblueprint.repository.CategoryRepository;
 import com.boris.springredisblueprint.service.command.CategoryCommandService;
@@ -35,15 +36,19 @@ public class CategoryCommandServiceImpl implements CategoryCommandService {
     @Transactional
     public void deleteCategory(UUID id) {
         log.info("Deleting category with id: '{}'", id);
-        Optional<Category> category = categoryRepository.findById(id);
 
-        if (category.isPresent()) {
-            if (!category.get().getPosts().isEmpty()) {
-                throw new IllegalStateException("Category has associated posts.");
-            }
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Category not found for deletion: {}", id);
+                    return new CategoryNotFoundException(
+                            String.format("Category with ID '%s' not found.", id));
+                });
 
-            categoryRepository.deleteById(id);
-            log.info("Successfully deleted category: '{}'", id);
+        if (!category.getPosts().isEmpty()) {
+            throw new IllegalStateException("Category has associated posts.");
         }
+
+        categoryRepository.delete(category);
+        log.info("Successfully deleted category: '{}'", id);
     }
 }
