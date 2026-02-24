@@ -50,6 +50,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("com.h2database:h2:2.3.232")
+
+    // docs
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1")
 }
 
 tasks.withType<Test> {
