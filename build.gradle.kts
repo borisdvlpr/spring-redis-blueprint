@@ -35,6 +35,10 @@ dependencies {
     // redis
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
+    // flyway
+    implementation("org.flywaydb:flyway-core:12.0.0")
+    runtimeOnly("org.flywaydb:flyway-database-postgresql:12.0.0")
+
     // lombok
     compileOnly("org.projectlombok:lombok:1.18.42")
     annotationProcessor("org.projectlombok:lombok:1.18.42")
