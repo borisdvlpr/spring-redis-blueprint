@@ -22,6 +22,12 @@ To run this project locally, you need:
 
 This microservice template combines a relational database (PostgreSQL) for persistent data with an in-memory database (Redis) for caching.
 
+![Simplified Architecture](assets/architecture_diagram.png)
+
+## REST API
+
+The service exposes REST endpoints for managing posts, categories, and tags. Read endpoints are public where applicable, while write operations are protected with JWT authentication. OpenAPI/Swagger documentation is available when the application is running.
+
 ## Databases and Data Usage
 
 ### PostgreSQL (Primary Database)
