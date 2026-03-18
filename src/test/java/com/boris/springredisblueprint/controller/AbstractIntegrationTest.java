@@ -48,7 +48,7 @@ public abstract class AbstractIntegrationTest {
     protected UserService userService;
 
     @BeforeEach
-    void resetSpies() {
+    void resetMocks() {
         reset(
                 postQueryService,
                 categoryQueryService,
