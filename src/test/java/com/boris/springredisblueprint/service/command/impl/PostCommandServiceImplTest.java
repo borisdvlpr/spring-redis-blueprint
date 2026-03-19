@@ -185,6 +185,25 @@ class PostCommandServiceImplTest {
         }
 
         @Test
+        @DisplayName("should recalculate reading time when content changes")
+        void shouldRecalculateReadingTimeOnUpdate() {
+            UUID id = UUID.randomUUID();
+            Category category = buildCategory();
+            // 400 words / 200 wpm = 2 minutes
+            String newContent = "word ".repeat(400).trim();
+
+            Post existing = buildPost(id, "Title", "old content", category, Set.of());
+            UpdatePostRequest request = buildUpdatePostRequest("Title", newContent, PostStatusEnum.PUBLISHED, category.getId(), Set.of());
+
+            when(postRepository.findById(id)).thenReturn(Optional.of(existing));
+            when(postRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+            Post result = postCommandService.updatePost(id, request);
+
+            assertThat(result.getReadingTime()).isEqualTo(2);
+        }
+
+        @Test
         @DisplayName("should throw PostNotFoundException when post does not exist")
         void shouldThrowWhenPostNotFound() {
             UUID id = UUID.randomUUID();
