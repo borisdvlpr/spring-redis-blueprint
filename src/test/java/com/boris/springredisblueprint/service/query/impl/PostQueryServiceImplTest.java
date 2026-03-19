@@ -38,12 +38,16 @@ class PostQueryServiceImplTest {
 
     @InjectMocks
     private PostQueryServiceImpl postQueryService;
+
     @Mock
     private CategoryQueryService categoryQueryService;
+
     @Mock
     private TagQueryService tagQueryService;
+
     @Mock
     private PostRepository postRepository;
+
     @Mock
     private PostMapper postMapper;
 
@@ -141,12 +145,14 @@ class PostQueryServiceImplTest {
         @DisplayName("should return empty page when no posts match")
         void shouldReturnEmptyPageWhenNoPostsMatch() {
             Pageable pageable = PageRequest.of(0, 10);
-            when(postRepository.findAllByStatus(PostStatusEnum.PUBLISHED, pageable)).thenReturn(new PageImpl<>(List.of()));
+            when(postRepository.findAllByStatus(PostStatusEnum.PUBLISHED, pageable))
+                    .thenReturn(new PageImpl<>(List.of()));
 
             Page<PostDto> result = postQueryService.getAllPosts(null, null, pageable);
 
             assertThat(result.getContent()).isEmpty();
             assertThat(result.getTotalElements()).isZero();
+            verify(postMapper, never()).toDto(any());
         }
 
         @Test
@@ -158,14 +164,16 @@ class PostQueryServiceImplTest {
             PostDto dto1 = buildPostDto();
             PostDto dto2 = buildPostDto();
 
-            when(postRepository.findAllByStatus(PostStatusEnum.PUBLISHED, pageable)).thenReturn(new PageImpl<>(List.of(post1, post2)));
+            when(postRepository.findAllByStatus(PostStatusEnum.PUBLISHED, pageable))
+                    .thenReturn(new PageImpl<>(List.of(post1, post2)));
             when(postMapper.toDto(post1)).thenReturn(dto1);
             when(postMapper.toDto(post2)).thenReturn(dto2);
 
             Page<PostDto> result = postQueryService.getAllPosts(null, null, pageable);
 
             assertThat(result.getContent()).containsExactly(dto1, dto2);
-            verify(postMapper, times(2)).toDto(any());
+            verify(postMapper).toDto(post1);
+            verify(postMapper).toDto(post2);
         }
     }
 
@@ -194,7 +202,9 @@ class PostQueryServiceImplTest {
             UUID id = UUID.randomUUID();
             when(postRepository.findById(id)).thenReturn(Optional.empty());
 
-            assertThatThrownBy(() -> postQueryService.getPost(id)).isInstanceOf(PostNotFoundException.class).hasMessageContaining(id.toString());
+            assertThatThrownBy(() -> postQueryService.getPost(id))
+                    .isInstanceOf(PostNotFoundException.class)
+                    .hasMessageContaining(id.toString());
         }
     }
 
@@ -226,11 +236,13 @@ class PostQueryServiceImplTest {
             User user = buildUser();
             Pageable pageable = PageRequest.of(0, 10);
 
-            when(postRepository.findAllByAuthorAndStatus(user, PostStatusEnum.DRAFT, pageable)).thenReturn(new PageImpl<>(List.of()));
+            when(postRepository.findAllByAuthorAndStatus(user, PostStatusEnum.DRAFT, pageable))
+                    .thenReturn(new PageImpl<>(List.of()));
 
             Page<PostDto> result = postQueryService.getDraftPosts(user, pageable);
 
             assertThat(result.getContent()).isEmpty();
+            verify(postMapper, never()).toDto(any());
         }
     }
 
