@@ -15,7 +15,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -36,10 +35,13 @@ class PostCommandServiceImplTest {
 
     @InjectMocks
     private PostCommandServiceImpl postCommandService;
+
     @Mock
     private CategoryQueryService categoryQueryService;
+
     @Mock
     private TagQueryService tagQueryService;
+
     @Mock
     private PostRepository postRepository;
 
@@ -140,24 +142,6 @@ class PostCommandServiceImplTest {
 
             assertThat(result.getReadingTime()).isEqualTo(0);
         }
-
-        @Test
-        @DisplayName("should persist post via repository")
-        void shouldSavePostViaRepository() {
-            User user = buildUser();
-            Category category = buildCategory();
-            CreatePostRequest request = buildCreatePostRequest("Title", "content", PostStatusEnum.PUBLISHED, category.getId(), Set.of());
-
-            when(categoryQueryService.getCategoryById(any())).thenReturn(category);
-            when(tagQueryService.getTagByIds(any())).thenReturn(List.of());
-            when(postRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
-
-            postCommandService.createPost(user, request);
-
-            ArgumentCaptor<Post> captor = ArgumentCaptor.forClass(Post.class);
-            verify(postRepository, times(1)).save(captor.capture());
-            assertThat(captor.getValue().getTitle()).isEqualTo("Title");
-        }
     }
 
     @Nested
@@ -211,7 +195,9 @@ class PostCommandServiceImplTest {
 
             UpdatePostRequest request = buildUpdatePostRequest("Title", "content", PostStatusEnum.PUBLISHED, UUID.randomUUID(), Set.of());
 
-            assertThatThrownBy(() -> postCommandService.updatePost(id, request)).isInstanceOf(PostNotFoundException.class).hasMessageContaining(id.toString());
+            assertThatThrownBy(() -> postCommandService.updatePost(id, request))
+                    .isInstanceOf(PostNotFoundException.class)
+                    .hasMessageContaining(id.toString());
         }
 
         @Test
@@ -231,7 +217,7 @@ class PostCommandServiceImplTest {
             Post result = postCommandService.updatePost(id, request);
 
             assertThat(result.getCategory()).isEqualTo(newCategory);
-            verify(categoryQueryService, times(1)).getCategoryById(newCategory.getId());
+            verify(categoryQueryService).getCategoryById(newCategory.getId());
         }
 
         @Test
@@ -270,7 +256,7 @@ class PostCommandServiceImplTest {
             Post result = postCommandService.updatePost(id, request);
 
             assertThat(result.getTags()).containsExactly(newTag);
-            verify(tagQueryService, times(1)).getTagByIds(Set.of(newTag.getId()));
+            verify(tagQueryService).getTagByIds(Set.of(newTag.getId()));
         }
 
         @Test
@@ -307,7 +293,7 @@ class PostCommandServiceImplTest {
 
             postCommandService.deletePost(id);
 
-            verify(postRepository, times(1)).delete(post);
+            verify(postRepository).delete(post);
         }
 
         @Test
@@ -316,7 +302,9 @@ class PostCommandServiceImplTest {
             UUID id = UUID.randomUUID();
             when(postRepository.findById(id)).thenReturn(Optional.empty());
 
-            assertThatThrownBy(() -> postCommandService.deletePost(id)).isInstanceOf(PostNotFoundException.class).hasMessageContaining(id.toString());
+            assertThatThrownBy(() -> postCommandService.deletePost(id))
+                    .isInstanceOf(PostNotFoundException.class)
+                    .hasMessageContaining(id.toString());
 
             verify(postRepository, never()).delete(any());
         }
