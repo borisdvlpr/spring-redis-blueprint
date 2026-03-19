@@ -247,34 +247,34 @@ class PostQueryServiceImplTest {
     }
 
     private Post buildPost() {
-        Post post = new Post();
-        post.setId(UUID.randomUUID());
-        post.setTitle("Test Post");
-        return post;
+        return Post.builder()
+                .id(UUID.randomUUID())
+                .title("Test Post")
+                .build();
     }
 
     private PostDto buildPostDto() {
-        PostDto dto = new PostDto();
-        dto.setId(UUID.randomUUID());
-        dto.setTitle("Test Post");
-        return dto;
+        return PostDto.builder()
+                .id(UUID.randomUUID())
+                .title("Test Post")
+                .build();
     }
 
     private Category buildCategory(UUID id) {
-        Category category = new Category();
-        category.setId(id);
-        return category;
+        return Category.builder()
+                .id(id)
+                .build();
     }
 
     private Tag buildTag(UUID id) {
-        Tag tag = new Tag();
-        tag.setId(id);
-        return tag;
+        return Tag.builder()
+                .id(id)
+                .build();
     }
 
     private User buildUser() {
-        User user = new User();
-        user.setId(UUID.randomUUID());
-        return user;
+        return User.builder()
+                .id(UUID.randomUUID())
+                .build();
     }
 }
