@@ -311,50 +311,50 @@ class PostCommandServiceImplTest {
     }
 
     private User buildUser() {
-        User user = new User();
-        user.setId(UUID.randomUUID());
-        return user;
+        return User.builder()
+                .id(UUID.randomUUID())
+                .build();
     }
 
     private Category buildCategory() {
-        Category category = new Category();
-        category.setId(UUID.randomUUID());
-        return category;
+        return Category.builder()
+                .id(UUID.randomUUID())
+                .build();
     }
 
     private Tag buildTag() {
-        Tag tag = new Tag();
-        tag.setId(UUID.randomUUID());
-        return tag;
+        return Tag.builder()
+                .id(UUID.randomUUID())
+                .build();
     }
 
     private Post buildPost(UUID id, String title, String content, Category category, Set<Tag> tags) {
-        Post post = new Post();
-        post.setId(id);
-        post.setTitle(title);
-        post.setContent(content);
-        post.setCategory(category);
-        post.setTags(tags);
-        return post;
+        return Post.builder()
+                .id(id)
+                .title(title)
+                .content(content)
+                .category(category)
+                .tags(tags)
+                .build();
     }
 
     private CreatePostRequest buildCreatePostRequest(String title, String content, PostStatusEnum status, UUID categoryId, Set<UUID> tagIds) {
-        CreatePostRequest request = new CreatePostRequest();
-        request.setTitle(title);
-        request.setContent(content);
-        request.setStatus(status);
-        request.setCategoryId(categoryId);
-        request.setTagIds(tagIds);
-        return request;
+        return CreatePostRequest.builder()
+                .title(title)
+                .content(content)
+                .status(status)
+                .categoryId(categoryId)
+                .tagIds(tagIds)
+                .build();
     }
 
     private UpdatePostRequest buildUpdatePostRequest(String title, String content, PostStatusEnum status, UUID categoryId, Set<UUID> tagIds) {
-        UpdatePostRequest request = new UpdatePostRequest();
-        request.setTitle(title);
-        request.setContent(content);
-        request.setStatus(status);
-        request.setCategoryId(categoryId);
-        request.setTagIds(tagIds);
-        return request;
+        return UpdatePostRequest.builder()
+                .title(title)
+                .content(content)
+                .status(status)
+                .categoryId(categoryId)
+                .tagIds(tagIds)
+                .build();
     }
 }
