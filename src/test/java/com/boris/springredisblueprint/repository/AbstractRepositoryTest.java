@@ -1,5 +1,7 @@
 package com.boris.springredisblueprint.repository;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -25,5 +27,15 @@ public abstract class AbstractRepositoryTest {
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
         registry.add("spring.datasource.driver-class-name", postgres::getDriverClassName);
+    }
+
+    @BeforeAll
+    protected static void setup() {
+        postgres.start();
+    }
+
+    @AfterAll
+    protected static void teardown() {
+        postgres.stop();
     }
 }
